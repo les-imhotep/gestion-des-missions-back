@@ -38,11 +38,11 @@ public class NatureMission {
 		this.id = id;
 	}
 
-	public Facturation getfacturation() {
+	public Facturation getFacturation() {
 		return facturation;
 	}
 
-	public void setFacturee(Facturation facturation) {
+	public void setFacturation(Facturation facturation) {
 		this.facturation = facturation;
 	}
 
