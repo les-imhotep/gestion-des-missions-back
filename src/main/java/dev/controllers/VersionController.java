@@ -1,7 +1,8 @@
-package dev.controller;
+package dev.controllers;
 
-import dev.domain.Version;
-import dev.repository.VersionRepo;
+import dev.entities.Version;
+import dev.repositories.VersionRepo;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,7 +1,8 @@
-package dev.repository;
+package dev.repositories;
 
-import dev.domain.Collegue;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import dev.entities.Collegue;
 
 import java.util.Optional;
 

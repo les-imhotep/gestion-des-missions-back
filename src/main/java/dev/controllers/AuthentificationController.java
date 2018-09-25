@@ -1,7 +1,8 @@
-package dev.controller;
+package dev.controllers;
 
-import dev.controller.vm.CollegueVM;
-import dev.repository.CollegueRepo;
+import dev.controller.dto.CollegueDto;
+import dev.repositories.CollegueRepo;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class AuthentificationController {
     public ResponseEntity<?> quiSuisJe() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return this.collegueRepo.findByEmail(email)
-                .map(CollegueVM::new)
+                .map(CollegueDto::new)
                 .map(col -> ResponseEntity.ok(col))
                 .orElse(ResponseEntity.badRequest().build());
     }

@@ -1,6 +1,8 @@
-package dev.domain;
+package dev.entities;
 
 import javax.persistence.*;
+
+import dev.entities.enumerations.Role;
 
 @Entity
 public class RoleCollegue {

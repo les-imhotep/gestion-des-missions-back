@@ -1,4 +1,4 @@
-package dev.domain;
+package dev.entities;
 
 import javax.persistence.*;
 import java.util.List;

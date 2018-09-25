@@ -1,11 +1,12 @@
 package dev;
 
-import dev.domain.Collegue;
-import dev.domain.Role;
-import dev.domain.RoleCollegue;
-import dev.domain.Version;
-import dev.repository.CollegueRepo;
-import dev.repository.VersionRepo;
+import dev.entities.Collegue;
+import dev.entities.RoleCollegue;
+import dev.entities.Version;
+import dev.entities.enumerations.Role;
+import dev.repositories.CollegueRepo;
+import dev.repositories.VersionRepo;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
