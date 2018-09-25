@@ -2,8 +2,15 @@ package dev.entities;
 
 import java.time.LocalDate;
 
-public class Absence {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class Absence {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private LocalDate dateDebut;
 	private LocalDate dateFin;
