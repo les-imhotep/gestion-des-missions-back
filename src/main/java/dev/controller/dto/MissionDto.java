@@ -1,55 +1,40 @@
 package dev.controller.dto;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import javax.persistence.ManyToOne;
-
+import dev.entities.Collegue;
+import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
 
 public class MissionDto {
-	private LocalDate dateDebut;
-	private LocalDate dateFin;
-	@ManyToOne
+	private Long id;
+	private String dateDebut;
+	private String dateFin;
 	private NatureMission natureMission;
 	private String villeDepart;
 	private String villeArrivee;
 	private Transport transport;
 	private Statut statut;
 	private double prime;
+	private Collegue collegue;
 
 	public MissionDto() {
 		super();
 	}
 
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, String villeDepart,
-			String villeArrivee, Transport transport, Statut statut, double prime) {
+	public MissionDto(Mission mission) {
 		super();
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.villeDepart = villeDepart;
-		this.villeArrivee = villeArrivee;
-		this.transport = transport;
-		this.statut = statut;
-		this.prime = prime;
-	}
-
-	public LocalDate getDateDebut() {
-		return dateDebut;
-	}
-
-	public void setDateDebut(LocalDate dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-
-	public LocalDate getDateFin() {
-		return dateFin;
-	}
-
-	public void setDateFin(LocalDate dateFin) {
-		this.dateFin = dateFin;
+		this.id = mission.getId();
+		this.dateDebut = mission.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.dateFin = mission.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.natureMission = mission.getNatureMission();
+		this.villeDepart = mission.getVilleDepart();
+		this.villeArrivee = mission.getVilleArrivee();
+		this.transport = mission.getTransport();
+		this.statut = mission.getStatut();
+		this.prime = mission.getPrime();
 	}
 
 	public NatureMission getNatureMission() {
@@ -98,6 +83,38 @@ public class MissionDto {
 
 	public void setPrime(double prime) {
 		this.prime = prime;
+	}
+
+	public String getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public String getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(String dateFin) {
+		this.dateFin = dateFin;
+	}
+
+	public Collegue getCollegue() {
+		return collegue;
+	}
+
+	public void setCollegue(Collegue collegue) {
+		this.collegue = collegue;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

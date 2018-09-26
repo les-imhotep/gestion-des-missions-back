@@ -37,32 +37,13 @@ public interface Converters {
 	// Collegue inutile
 
 	// Converter for mission
-	Converter<Mission, MissionDto> MISSION_TO_MISSION_DTO = source -> {
-		MissionDto missionDto = new MissionDto();
-
-		missionDto.setDateDebut(source.getDateDebut());
-		missionDto.setDateFin(source.getDateFin());
-		missionDto.setNatureMission(source.getNatureMission());
-		missionDto.setPrime(source.getPrime());
-		missionDto.setStatut(source.getStatut());
-		missionDto.setTransport(source.getTransport());
-		missionDto.setVilleArrivee(source.getVilleArrivee());
-		missionDto.setVilleDepart(source.getVilleDepart());
-
+	Converter<Mission, MissionDto> MISSION_TO_MISSION_DTO = mission -> {
+		MissionDto missionDto = new MissionDto(mission);
 		return missionDto;
 	};
 
-	Converter<MissionDto, Mission> MISSION_DTO_TO_MISSION = source -> {
+	Converter<MissionDto, Mission> MISSION_DTO_TO_MISSION = missionDto -> {
 		Mission mission = new Mission();
-
-		mission.setDateDebut(source.getDateDebut());
-		mission.setDateFin(source.getDateFin());
-		mission.setNatureMission(source.getNatureMission());
-		mission.setPrime(source.getPrime());
-		mission.setStatut(source.getStatut());
-		mission.setTransport(source.getTransport());
-		mission.setVilleArrivee(source.getVilleArrivee());
-		mission.setVilleDepart(source.getVilleDepart());
 
 		return mission;
 	};

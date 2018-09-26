@@ -2,14 +2,11 @@ package dev.controller.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.ManyToOne;
-
 import dev.entities.NatureMission;
 
 public class PrimeDto {
 	private LocalDate dateDebut;
 	private LocalDate dateFin;
-	@ManyToOne
 	private NatureMission natureMission;
 	private double montant;
 
