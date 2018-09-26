@@ -26,4 +26,9 @@ public class MissionService {
 		return this.missionRepo.findAllByCollegueEmail(username);
 
 	}
+
+	public void newMission(Mission mission) {
+		this.missionRepo.save(mission);
+	}
+
 }

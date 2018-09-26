@@ -1,13 +1,15 @@
 package dev.controller.dto;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import dev.entities.NatureMission;
+import dev.entities.NoteDeFrais;
 import dev.entities.enumerations.Transport;
 
 public class NoteDeFraisDto {
-	private LocalDate dateDebut;
-	private LocalDate dateFin;
+	private Long id;
+	private String dateDebut;
+	private String dateFin;
 	private NatureMission natureMission;
 	private String villeDepart;
 	private String villeArrivee;
@@ -18,31 +20,31 @@ public class NoteDeFraisDto {
 		super();
 	}
 
-	public NoteDeFraisDto(LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, String villeDepart,
-			String villeArrivee, Transport transport, double frais) {
+	public NoteDeFraisDto(NoteDeFrais noteDeFrais) {
 		super();
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.villeDepart = villeDepart;
-		this.villeArrivee = villeArrivee;
-		this.transport = transport;
-		this.frais = frais;
+		this.id = noteDeFrais.getId();
+		this.dateDebut = noteDeFrais.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.dateFin = noteDeFrais.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.natureMission = noteDeFrais.getNatureMission();
+		this.villeDepart = noteDeFrais.getVilleDepart();
+		this.villeArrivee = noteDeFrais.getVilleArrivee();
+		this.transport = noteDeFrais.getTransport();
+		this.frais = noteDeFrais.getFrais();
 	}
 
-	public LocalDate getDateDebut() {
+	public String getDateDebut() {
 		return dateDebut;
 	}
 
-	public void setDateDebut(LocalDate dateDebut) {
+	public void setDateDebut(String dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
-	public LocalDate getDateFin() {
+	public String getDateFin() {
 		return dateFin;
 	}
 
-	public void setDateFin(LocalDate dateFin) {
+	public void setDateFin(String dateFin) {
 		this.dateFin = dateFin;
 	}
 
@@ -84,6 +86,14 @@ public class NoteDeFraisDto {
 
 	public void setFrais(double frais) {
 		this.frais = frais;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

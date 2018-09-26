@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import dev.controller.dto.NatureMissionDto;
 import dev.entities.enumerations.Facturation;
 
 @Entity
@@ -21,13 +22,13 @@ public class NatureMission {
 		super();
 	}
 
-	public NatureMission(Long id, Facturation facturation, boolean prime, double tjm, double pourcentage) {
+	public NatureMission(NatureMissionDto natureMission) {
 		super();
-		this.id = id;
-		this.facturation = facturation;
-		this.prime = prime;
-		this.tjm = tjm;
-		this.pourcentage = pourcentage;
+		this.id = natureMission.getId();
+		this.facturation = natureMission.getFacturation();
+		this.prime = natureMission.isPrime();
+		this.tjm = natureMission.getTjm();
+		this.pourcentage = natureMission.getPourcentage();
 	}
 
 	public Long getId() {
