@@ -1,12 +1,15 @@
 package dev.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import dev.controller.dto.AbsenceDto;
 
 @Entity
 public class Absence {
@@ -24,12 +27,13 @@ public class Absence {
 		super();
 	}
 
-	public Absence(Long id, LocalDate dateDebut, LocalDate dateFin, Collegue collegue) {
+	public Absence(AbsenceDto absence) {
 		super();
-		this.id = id;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.collegue = collegue;
+		this.id = absence.getId();
+		this.dateDebut = LocalDate.parse(absence.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateFin = LocalDate.parse(absence.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+		this.collegue = absence.getCollegue();
 	}
 
 	public Long getId() {

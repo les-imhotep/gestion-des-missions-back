@@ -2,9 +2,12 @@ package dev.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import dev.entities.NoteDeFrais;
 import dev.repositories.NoteDeFraisRepo;
 
+@Service
 public class NoteDeFraisService {
 
 	private NoteDeFraisRepo noteDeFraisRepo;

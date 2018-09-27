@@ -10,14 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entities.Collegue;
+import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.NoteDeFrais;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
 import dev.entities.enumerations.Role;
+import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
 import dev.repositories.CollegueRepo;
+import dev.repositories.MissionRepo;
+import dev.repositories.NatureMissionRepo;
 import dev.repositories.VersionRepo;
 
 /**
@@ -31,12 +35,21 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 
+	private NatureMissionRepo natureMissionRepo;
+	private MissionRepo missionRepo;
+
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
+			NatureMissionRepo natureMissionRepo) {
+
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
+
+		this.natureMissionRepo = natureMissionRepo;
+		this.missionRepo = missionRepo;
+
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
@@ -84,6 +97,48 @@ public class StartupListener {
 		note1.setVilleDepart("Nantes");
 		note1.setVilleArrivee("Rennes");
 		note1.setTransport(Transport.COVOITURAGE);
+
+		NatureMission conseil = new NatureMission();
+		conseil.setPourcentage(3.5);
+		conseil.setPrime(true);
+		conseil.setTjm(750);
+		conseil.setFacturation(Facturation.FACTUREE);
+		conseil.setName("Conseil");
+		this.natureMissionRepo.save(conseil);
+
+		NatureMission expertiseTechnique = new NatureMission();
+		expertiseTechnique.setPourcentage(4);
+		expertiseTechnique.setPrime(true);
+		expertiseTechnique.setTjm(1000);
+		expertiseTechnique.setFacturation(Facturation.FACTUREE);
+		expertiseTechnique.setName("Expertise technique");
+		this.natureMissionRepo.save(expertiseTechnique);
+
+		NatureMission formation = new NatureMission();
+		formation.setPrime(false);
+		formation.setFacturation(Facturation.NON_FACTUREE);
+		formation.setName("Formation");
+		formation.setDateFin(LocalDate.of(2018, 9, 20));
+		this.natureMissionRepo.save(formation);
+
+		NatureMission formation1 = new NatureMission();
+		formation1.setPrime(true);
+		formation1.setFacturation(Facturation.NON_FACTUREE);
+		formation1.setName("Formation");
+		this.natureMissionRepo.save(formation1);
+		// ajout de misssions
+		Mission mission = new Mission();
+		mission.setCollegue(col1);
+		mission.setDateDebut(LocalDate.now());
+		mission.setDateFin(LocalDate.of(2019, 01, 21));
+		mission.setNatureMission(null);
+		mission.setPrime(5000);
+		mission.setTransport(Transport.AVION);
+		mission.setStatut(Statut.INITIALE);
+		mission.setVilleArrivee("Paris");
+		mission.setVilleDepart("Nantes");
+		missionRepo.save(mission);
+
 	}
 
 }
