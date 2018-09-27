@@ -12,4 +12,6 @@ public interface NatureMissionRepo extends JpaRepository<NatureMission, Long> {
 
 	public Optional<NatureMission> findByDateFin(LocalDate date);
 
+	public Optional<NatureMission> findByName(String name);
+
 }
