@@ -1,14 +1,17 @@
 package dev.controllers;
 
-import dev.repositories.NoteDeFraisRepo;
+import org.springframework.web.bind.annotation.RestController;
 
+import dev.services.NoteDeFraisService;
+
+@RestController
 public class NoteDeFraisController {
 
-	NoteDeFraisRepo noteDeFraisRepo;
+	NoteDeFraisService noteDeFraisService;
 
-	public NoteDeFraisController(NoteDeFraisRepo noteDeFraisRepo) {
+	public NoteDeFraisController(NoteDeFraisService noteDeFraisService) {
 		super();
-		this.noteDeFraisRepo = noteDeFraisRepo;
+		this.noteDeFraisService = noteDeFraisService;
 	}
 
 }

@@ -1,11 +1,14 @@
 package dev.controllers;
 
-import dev.repositories.AbsenceRepo;
+import org.springframework.web.bind.annotation.RestController;
 
+import dev.services.AbsenceService;
+
+@RestController
 public class AbsenceController {
-	AbsenceRepo absenceRepo;
+	AbsenceService absenceService;
 
-	public AbsenceController(AbsenceRepo absenceRepo) {
-		this.absenceRepo = absenceRepo;
+	public AbsenceController(AbsenceService absenceService) {
+		this.absenceService = absenceService;
 	}
 }

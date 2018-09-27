@@ -1,14 +1,17 @@
 package dev.controllers;
 
-import dev.repositories.PrimeRepo;
+import org.springframework.web.bind.annotation.RestController;
 
+import dev.services.PrimeService;
+
+@RestController
 public class PrimeController {
 
-	PrimeRepo primeRepo;
+	PrimeService primeService;
 
-	public PrimeController(PrimeRepo primeRepo) {
+	public PrimeController(PrimeService primeService) {
 		super();
-		this.primeRepo = primeRepo;
+		this.primeService = primeService;
 	}
 
 }

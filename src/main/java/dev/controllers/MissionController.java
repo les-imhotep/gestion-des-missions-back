@@ -1,13 +1,16 @@
 package dev.controllers;
 
-import dev.repositories.MissionRepo;
+import org.springframework.web.bind.annotation.RestController;
 
+import dev.services.MissionService;
+
+@RestController
 public class MissionController {
 
-	MissionRepo missionRepo;
+	MissionService missionService;
 
-	public MissionController(MissionRepo missionRepo) {
-		this.missionRepo = missionRepo;
+	public MissionController(MissionService missionService) {
+		this.missionService = missionService;
 	}
 
 }
