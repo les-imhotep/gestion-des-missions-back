@@ -18,6 +18,6 @@ public class NoteDeFraisService {
 	}
 
 	public List<NoteDeFrais> listerNoteDeFrais() {
-		return this.noteDeFraisRepo.findAllNoteDeFrais();
+		return this.noteDeFraisRepo.findAll();
 	}
 }
