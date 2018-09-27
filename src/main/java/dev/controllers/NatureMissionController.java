@@ -36,17 +36,17 @@ public class NatureMissionController {
 
 	@PostMapping("/new")
 	public ResponseEntity<?> addNatureMission(@RequestBody NatureMissionDto natureMission) {
-
-		return ResponseEntity.ok(this.natureMissionService
-				.addNatureMission(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(natureMission)));
+		this.natureMissionService
+				.addNatureMission(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(natureMission));
+		return findAllNatureMission();
 
 	}
 
 	@PostMapping("/delete")
-	public ResponseEntity<String> deleteNatureMission(@RequestBody NatureMissionDto natureMission) {
-
-		return ResponseEntity.ok(this.natureMissionService
-				.deleteNatureMission(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(natureMission)));
+	public ResponseEntity<List<NatureMissionDto>> deleteNatureMission(@RequestBody NatureMissionDto natureMission) {
+		this.natureMissionService
+				.deleteNatureMission(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(natureMission));
+		return findAllNatureMission();
 	}
 
 	@PostMapping("/update")
