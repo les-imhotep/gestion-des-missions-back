@@ -3,6 +3,7 @@ package dev.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,11 @@ import dev.services.MissionService;
 @RequestMapping("/missions")
 public class MissionController extends AbstractControllerUser {
 
+	@Autowired
 	private MissionService service;
 
-	public MissionController(MissionService service) {
+	public MissionController() {
 		super();
-		this.service = service;
-
 	}
 
 	// *************************************GET***********************************************
@@ -40,17 +40,7 @@ public class MissionController extends AbstractControllerUser {
 	// *************************************POST***********************************************
 	@PostMapping(path = "/new")
 	public void newMission(@RequestBody MissionDto missionDto) {
-		MissionDto newMissionDto = new MissionDto();
-
-		newMissionDto.setCollegue(missionDto.getCollegue());
-		newMissionDto.setDateDebut(missionDto.getDateDebut());
-		newMissionDto.setDateFin(missionDto.getDateFin());
-		newMissionDto.setNatureMission(missionDto.getNatureMission());
-		newMissionDto.setStatut(missionDto.getStatut());
-		newMissionDto.setTransport(missionDto.getTransport());
-		newMissionDto.setVilleArrivee(missionDto.getVilleArrivee());
-		newMissionDto.setVilleDepart(missionDto.getVilleDepart());
-		this.service.newMission(Converters.MISSION_DTO_TO_MISSION.convert(newMissionDto));
+		this.service.newMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
 
 	}
 }
