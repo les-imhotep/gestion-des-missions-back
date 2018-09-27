@@ -15,13 +15,13 @@ import dev.entities.Prime;
 
 public interface Converters {
 	// Converter for absence
-	Converter<Absence, AbsenceDto> ABSENCE_TO_ABSENCE_DTO = source -> {
-		AbsenceDto absenceDto = new AbsenceDto();
+	Converter<Absence, AbsenceDto> ABSENCE_TO_ABSENCE_DTO = absence -> {
+		AbsenceDto absenceDto = new AbsenceDto(absence);
 		return absenceDto;
 	};
 
-	Converter<AbsenceDto, Absence> ABSENCE_DTO_TO_ABSENCE = source -> {
-		Absence absence = new Absence();
+	Converter<AbsenceDto, Absence> ABSENCE_DTO_TO_ABSENCE = absenceDto -> {
+		Absence absence = new Absence(absenceDto);
 
 		return absence;
 	};
