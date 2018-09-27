@@ -18,7 +18,7 @@ import dev.services.MissionService;
 @CrossOrigin
 @RestController() // @Controller + @ResponseBody
 @RequestMapping("/missions")
-public class MissionController extends AbstractController {
+public class MissionController extends AbstractControllerUser {
 
 	private MissionService service;
 
