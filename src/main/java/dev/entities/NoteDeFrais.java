@@ -1,6 +1,7 @@
 package dev.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import dev.controller.dto.NoteDeFraisDto;
 import dev.entities.enumerations.Transport;
 
 @Entity
@@ -29,17 +31,16 @@ public class NoteDeFrais {
 		super();
 	}
 
-	public NoteDeFrais(Long id, LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, String villeDepart,
-			String villeArrivee, Transport transport, double frais) {
+	public NoteDeFrais(NoteDeFraisDto noteDeFrais) {
 		super();
-		this.id = id;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.villeDepart = villeDepart;
-		this.villeArrivee = villeArrivee;
-		this.transport = transport;
-		this.frais = frais;
+		this.id = noteDeFrais.getId();
+		this.dateDebut = LocalDate.parse(noteDeFrais.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateFin = LocalDate.parse(noteDeFrais.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.natureMission = noteDeFrais.getNatureMission();
+		this.villeDepart = noteDeFrais.getVilleDepart();
+		this.villeArrivee = noteDeFrais.getVilleArrivee();
+		this.transport = noteDeFrais.getTransport();
+		this.frais = noteDeFrais.getFrais();
 	}
 
 	public Long getId() {
