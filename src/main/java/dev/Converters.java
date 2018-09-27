@@ -33,42 +33,42 @@ public interface Converters {
 	};
 
 	Converter<MissionDto, Mission> MISSION_DTO_TO_MISSION = missionDto -> {
-		Mission mission = new Mission();
+		Mission mission = new Mission(missionDto);
 
 		return mission;
 	};
 
 	// Converter for natureMission
-	Converter<NatureMission, NatureMissionDto> NATUREMISSION_TO_NATUREMISSION_DTO = source -> {
-		NatureMissionDto natureMissionDto = new NatureMissionDto();
+	Converter<NatureMission, NatureMissionDto> NATUREMISSION_TO_NATUREMISSION_DTO = natureMission -> {
+		NatureMissionDto natureMissionDto = new NatureMissionDto(natureMission);
 
 		return natureMissionDto;
 	};
 
-	Converter<NatureMissionDto, NatureMission> NATUREMISSION_DTO_TO_NATUREMISSION = source -> {
-		NatureMission natureMission = new NatureMission();
+	Converter<NatureMissionDto, NatureMission> NATUREMISSION_DTO_TO_NATUREMISSION = natureMissionDto -> {
+		NatureMission natureMission = new NatureMission(natureMissionDto);
 
 		return natureMission;
 	};
 	// Converter for noteDeFrais
-	Converter<NoteDeFrais, NoteDeFraisDto> NOTEDEFRAIS_TO_NOTEDEFRAIS_DTO = source -> {
-		NoteDeFraisDto noteDeFraisDto = new NoteDeFraisDto();
+	Converter<NoteDeFrais, NoteDeFraisDto> NOTEDEFRAIS_TO_NOTEDEFRAIS_DTO = noteDeFrais -> {
+		NoteDeFraisDto noteDeFraisDto = new NoteDeFraisDto(noteDeFrais);
 		return noteDeFraisDto;
 	};
 
-	Converter<NoteDeFraisDto, NoteDeFrais> NOTEDEFRAIS_DTO_TO_NOTEDEFRAIS = source -> {
-		NoteDeFrais noteDeFrais = new NoteDeFrais();
+	Converter<NoteDeFraisDto, NoteDeFrais> NOTEDEFRAIS_DTO_TO_NOTEDEFRAIS = noteDeFraisDto -> {
+		NoteDeFrais noteDeFrais = new NoteDeFrais(noteDeFraisDto);
 		return noteDeFrais;
 	};
 
 	// Converter for prime
-	Converter<Prime, PrimeDto> PRIME_TO_PRIME_DTO = source -> {
-		PrimeDto primeDto = new PrimeDto();
+	Converter<Prime, PrimeDto> PRIME_TO_PRIME_DTO = prime -> {
+		PrimeDto primeDto = new PrimeDto(prime);
 		return primeDto;
 	};
 
-	Converter<PrimeDto, Prime> PRIME_DTO_TO_PRIME = source -> {
-		Prime prime = new Prime();
+	Converter<PrimeDto, Prime> PRIME_DTO_TO_PRIME = primeDto -> {
+		Prime prime = new Prime(primeDto);
 		return prime;
 	};
 }
