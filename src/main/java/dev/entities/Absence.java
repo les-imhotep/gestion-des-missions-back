@@ -13,11 +13,13 @@ import dev.controller.dto.AbsenceDto;
 
 @Entity
 public class Absence {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private LocalDate dateDebut;
 	private LocalDate dateFin;
+
 	@ManyToOne
 	private Collegue collegue;
 
