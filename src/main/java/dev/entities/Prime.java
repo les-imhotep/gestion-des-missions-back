@@ -1,12 +1,15 @@
 package dev.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import dev.controller.dto.PrimeDto;
 
 @Entity
 public class Prime {
@@ -23,13 +26,13 @@ public class Prime {
 		super();
 	}
 
-	public Prime(Long id, LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, double montant) {
+	public Prime(PrimeDto prime) {
 		super();
-		this.id = id;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.montant = montant;
+		this.id = prime.getId();
+		this.dateDebut = LocalDate.parse(prime.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateFin = LocalDate.parse(prime.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.natureMission = prime.getNatureMission();
+		this.montant = prime.getMontant();
 	}
 
 	public Long getId() {

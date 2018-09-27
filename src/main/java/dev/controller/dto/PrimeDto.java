@@ -1,15 +1,14 @@
 package dev.controller.dto;
 
-import java.time.LocalDate;
-
-import javax.persistence.ManyToOne;
+import java.time.format.DateTimeFormatter;
 
 import dev.entities.NatureMission;
+import dev.entities.Prime;
 
 public class PrimeDto {
-	private LocalDate dateDebut;
-	private LocalDate dateFin;
-	@ManyToOne
+	private Long id;
+	private String dateDebut;
+	private String dateFin;
 	private NatureMission natureMission;
 	private double montant;
 
@@ -17,27 +16,30 @@ public class PrimeDto {
 		super();
 	}
 
-	public PrimeDto(LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, double montant) {
+	public PrimeDto(Prime prime) {
 		super();
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.montant = montant;
+		this.id = prime.getId();
+		this.dateDebut = prime.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		;
+		this.dateFin = prime.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		;
+		this.natureMission = prime.getNatureMission();
+		this.montant = prime.getMontant();
 	}
 
-	public LocalDate getDateDebut() {
+	public String getDateDebut() {
 		return dateDebut;
 	}
 
-	public void setDateDebut(LocalDate dateDebut) {
+	public void setDateDebut(String dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
-	public LocalDate getDateFin() {
+	public String getDateFin() {
 		return dateFin;
 	}
 
-	public void setDateFin(LocalDate dateFin) {
+	public void setDateFin(String dateFin) {
 		this.dateFin = dateFin;
 	}
 
@@ -55,6 +57,14 @@ public class PrimeDto {
 
 	public void setMontant(double montant) {
 		this.montant = montant;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

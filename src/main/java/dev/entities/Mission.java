@@ -1,6 +1,7 @@
 package dev.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import dev.controller.dto.MissionDto;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
 
@@ -25,23 +27,33 @@ public class Mission {
 	private Transport transport;
 	private Statut statut;
 	private double prime;
+	@ManyToOne
+	private Collegue collegue;
 
 	public Mission() {
 		super();
 	}
 
-	public Mission(Long id, LocalDate dateDebut, LocalDate dateFin, NatureMission natureMission, String villeDepart,
-			String villeArrivee, Transport transport, Statut statut, double prime) {
+	public Mission(MissionDto mission) {
 		super();
-		this.id = id;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.natureMission = natureMission;
-		this.villeDepart = villeDepart;
-		this.villeArrivee = villeArrivee;
-		this.transport = transport;
-		this.statut = statut;
-		this.prime = prime;
+		this.id = mission.getId();
+		this.dateDebut = LocalDate.parse(mission.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateFin = LocalDate.parse(mission.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.natureMission = mission.getNatureMission();
+		this.villeDepart = mission.getVilleDepart();
+		this.villeArrivee = mission.getVilleArrivee();
+		this.transport = mission.getTransport();
+		this.statut = mission.getStatut();
+		this.prime = mission.getPrime();
+		this.collegue = mission.getCollegue();
+	}
+
+	public Collegue getCollegue() {
+		return collegue;
+	}
+
+	public void setCollegue(Collegue collegue) {
+		this.collegue = collegue;
 	}
 
 	public Long getId() {

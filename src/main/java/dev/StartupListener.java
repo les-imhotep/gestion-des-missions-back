@@ -10,12 +10,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entities.Collegue;
+import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
 import dev.entities.enumerations.Role;
+import dev.entities.enumerations.Statut;
+import dev.entities.enumerations.Transport;
 import dev.repositories.CollegueRepo;
+import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
 import dev.repositories.VersionRepo;
 
@@ -30,14 +34,17 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 	private NatureMissionRepo natureMissionRepo;
+	private MissionRepo missionRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, NatureMissionRepo natureMissionRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
+			NatureMissionRepo natureMissionRepo) {
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
 		this.natureMissionRepo = natureMissionRepo;
+		this.missionRepo = missionRepo;
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
@@ -91,6 +98,18 @@ public class StartupListener {
 		formation1.setFacturation(Facturation.NON_FACTUREE);
 		formation1.setName("Formation");
 		this.natureMissionRepo.save(formation1);
+		// ajout de misssions
+		Mission mission = new Mission();
+		mission.setCollegue(col1);
+		mission.setDateDebut(LocalDate.now());
+		mission.setDateFin(LocalDate.of(2019, 01, 21));
+		mission.setNatureMission(null);
+		mission.setPrime(5000);
+		mission.setTransport(Transport.AVION);
+		mission.setStatut(Statut.INITIALE);
+		mission.setVilleArrivee("Paris");
+		mission.setVilleDepart("Nantes");
+		missionRepo.save(mission);
 	}
 
 }
