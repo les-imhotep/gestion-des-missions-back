@@ -1,5 +1,7 @@
 package dev.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +15,12 @@ public class NatureMission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String name;
 	private Facturation facturation;
 	private boolean prime;
 	private double tjm;
 	private double pourcentage;
+	private LocalDate dateFin;
 
 	public NatureMission() {
 		super();
@@ -29,6 +33,8 @@ public class NatureMission {
 		this.prime = natureMission.isPrime();
 		this.tjm = natureMission.getTjm();
 		this.pourcentage = natureMission.getPourcentage();
+		this.name = natureMission.getName();
+		this.dateFin = natureMission.getDateFin();
 	}
 
 	public Long getId() {
@@ -69,6 +75,22 @@ public class NatureMission {
 
 	public void setPourcentage(double pourcentage) {
 		this.pourcentage = pourcentage;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LocalDate getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(LocalDate dateFin) {
+		this.dateFin = dateFin;
 	}
 
 }

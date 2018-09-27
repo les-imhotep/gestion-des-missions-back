@@ -1,5 +1,7 @@
 package dev.controller.dto;
 
+import java.time.LocalDate;
+
 import dev.entities.NatureMission;
 import dev.entities.enumerations.Facturation;
 
@@ -9,6 +11,8 @@ public class NatureMissionDto {
 	private boolean prime;
 	private double tjm;
 	private double pourcentage;
+	private LocalDate dateFin;
+	private String name;
 
 	public NatureMissionDto() {
 		super();
@@ -21,6 +25,8 @@ public class NatureMissionDto {
 		this.prime = natureMission.isPrime();
 		this.tjm = natureMission.getTjm();
 		this.pourcentage = natureMission.getPourcentage();
+		this.name = natureMission.getName();
+		this.dateFin = natureMission.getDateFin();
 	}
 
 	public Facturation getFacturation() {
@@ -61,6 +67,22 @@ public class NatureMissionDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public LocalDate getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(LocalDate dateFin) {
+		this.dateFin = dateFin;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
