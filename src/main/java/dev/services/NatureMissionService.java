@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 import dev.controller.dto.NatureMissionDto;
 import dev.entities.NatureMission;
+import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
+import dev.exceptions.InvalidNameException;
+import dev.exceptions.NameAllreadyExcistsException;
+import dev.exceptions.PourcentageException;
 import dev.repositories.NatureMissionRepo;
 
 @Service
@@ -25,44 +29,67 @@ public class NatureMissionService {
 
 	}
 
-	public String deleteNatureMission(NatureMission natureMission) {
+	public void deleteNatureMission(NatureMission natureMission) {
 		if (this.natureMissionRepo.existsById(natureMission.getId())) {
 			this.natureMissionRepo.delete(natureMission);
-			return "Nature de mission supprimé";
+
 		} else {
 			throw new InvalidIdException();
 		}
 
 	}
 
-	public String addNatureMission(NatureMission natureMission) {
-		if (existsByName(natureMission.getName())) {
-			return "Nature déjà existante";
+	public void addNatureMission(NatureMission natureMission) {
+		if (natureMission.getFacturation() == null) {
+			throw new InvalidFacturationException();
+		}
+		if (natureMission.getName() == null) {
+			throw new InvalidNameException();
+		}
+		if (this.natureMissionRepo.existsByName((natureMission.getName()))) {
+			throw new NameAllreadyExcistsException();
+		}
+		if (natureMission.getPourcentage() > 10) {
+			throw new PourcentageException();
 		} else {
 			this.natureMissionRepo.save(natureMission);
-			return "Nature de mission ajouté";
+
 		}
 
 	}
 
 	public NatureMission updateNatureMission(NatureMissionDto natureMissionAModifier) {
+
+		NatureMission natureMissionModifie = new NatureMission();
 		// trouver la nature de mission à modifier
 		if (this.natureMissionRepo.existsById(natureMissionAModifier.getId())) {
+
 			this.natureMissionRepo.findById(natureMissionAModifier.getId())
 					.ifPresent(nature -> nature.setDateFin(LocalDate.now()));
-			// this.natureMissionRepo.save(natureMissionAModifier);
-
+			natureMissionModifie.setTjm(natureMissionAModifier.getTjm());
+			natureMissionModifie.setPrime(natureMissionAModifier.isPrime());
 		} else {
 			throw new InvalidIdException();
 		}
 
-		NatureMission natureMissionModifie = new NatureMission();
+		if (natureMissionAModifier.getFacturation() == null) {
+			throw new InvalidFacturationException();
+		} else {
+			natureMissionModifie.setFacturation(natureMissionAModifier.getFacturation());
 
-		natureMissionModifie.setFacturation(natureMissionAModifier.getFacturation());
-		natureMissionModifie.setName(natureMissionAModifier.getName());
-		natureMissionModifie.setPourcentage(natureMissionAModifier.getPourcentage());
-		natureMissionModifie.setTjm(natureMissionAModifier.getTjm());
-		natureMissionModifie.setPrime(natureMissionAModifier.isPrime());
+		}
+		if (natureMissionAModifier.getName() == null) {
+			throw new InvalidNameException();
+		} else {
+			natureMissionModifie.setName(natureMissionAModifier.getName());
+		}
+
+		if (natureMissionAModifier.getPourcentage() > 10) {
+			throw new PourcentageException();
+		} else {
+			natureMissionModifie.setPourcentage(natureMissionAModifier.getPourcentage());
+
+		}
 		this.natureMissionRepo.save(natureMissionModifie);
 
 		return natureMissionModifie;
