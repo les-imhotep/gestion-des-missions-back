@@ -26,6 +26,18 @@ public class NatureMission {
 		super();
 	}
 
+	public NatureMission(Long id, Facturation facturation, boolean prime, double tjm, double pourcentage, String name,
+			LocalDate dateFin) {
+		super();
+		this.id = id;
+		this.facturation = facturation;
+		this.prime = prime;
+		this.tjm = tjm;
+		this.pourcentage = pourcentage;
+		this.name = name;
+		this.dateFin = dateFin;
+	}
+
 	public NatureMission(NatureMissionDto natureMission) {
 		super();
 		this.id = natureMission.getId();

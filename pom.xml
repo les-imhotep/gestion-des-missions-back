@@ -87,6 +87,7 @@
 		</plugins>
 	</build>
 
+
 	<profiles>
 		<profile>
 			<id>dev-h2</id>

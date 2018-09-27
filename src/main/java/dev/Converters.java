@@ -15,6 +15,7 @@ import dev.entities.Prime;
 
 public interface Converters {
 	// Converter for absence
+
 	Converter<Absence, AbsenceDto> ABSENCE_TO_ABSENCE_DTO = absence -> {
 		AbsenceDto absenceDto = new AbsenceDto(absence);
 		return absenceDto;
@@ -39,6 +40,7 @@ public interface Converters {
 	};
 
 	// Converter for natureMission
+
 	Converter<NatureMission, NatureMissionDto> NATUREMISSION_TO_NATUREMISSION_DTO = natureMission -> {
 		NatureMissionDto natureMissionDto = new NatureMissionDto(natureMission);
 
@@ -62,6 +64,7 @@ public interface Converters {
 	};
 
 	// Converter for prime
+
 	Converter<Prime, PrimeDto> PRIME_TO_PRIME_DTO = prime -> {
 		PrimeDto primeDto = new PrimeDto(prime);
 		return primeDto;
