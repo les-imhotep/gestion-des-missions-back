@@ -16,7 +16,7 @@ public class PrimeService {
 		this.primeRepo = primeRepo;
 	}
 
-	public List<Prime> findAllNatureMission() {
+	public List<Prime> findAllPrimeMission() {
 		return primeRepo.findAll().stream().filter(prime -> prime.getDateFin() == null).collect(Collectors.toList());
 
 	}

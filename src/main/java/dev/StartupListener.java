@@ -1,7 +1,9 @@
 package dev;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -13,6 +15,7 @@ import dev.entities.Collegue;
 import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
+import dev.entities.NoteDeFrais;
 import dev.entities.Prime;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
@@ -24,6 +27,7 @@ import dev.repositories.CollegueRepo;
 import dev.repositories.LigneDeFraisRepo;
 import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
+import dev.repositories.NoteDeFraisRepo;
 import dev.repositories.PrimeRepo;
 import dev.repositories.VersionRepo;
 
@@ -41,10 +45,12 @@ public class StartupListener {
 	private PrimeRepo primeRepo;
 	private NatureMissionRepo natureMissionRepo;
 	private MissionRepo missionRepo;
+	private NoteDeFraisRepo noteDeFrais;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
-			NatureMissionRepo natureMissionRepo, LigneDeFraisRepo ligneDeFraisRepo, PrimeRepo primeRepo) {
+			NatureMissionRepo natureMissionRepo, LigneDeFraisRepo ligneDeFraisRepo, PrimeRepo primeRepo,
+			NoteDeFraisRepo noteDeFrais) {
 
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
@@ -54,6 +60,7 @@ public class StartupListener {
 		this.natureMissionRepo = natureMissionRepo;
 		this.missionRepo = missionRepo;
 		this.ligneDeFraisRepo = ligneDeFraisRepo;
+		this.noteDeFrais = noteDeFrais;
 
 	}
 
@@ -157,6 +164,14 @@ public class StartupListener {
 		prime.setMontant(1000);
 		prime.setNatureMission(conseil);
 		primeRepo.save(prime);
+
+		// notes de frais
+		NoteDeFrais notedefrais = new NoteDeFrais();
+		List<LigneDeFrais> lignesdefrais = new ArrayList<LigneDeFrais>();
+		lignesdefrais.add(ligneDeFrais1);
+		lignesdefrais.add(ligneDeFrais);
+		notedefrais.setLignesDeFrais(lignesdefrais);
+		noteDeFrais.save(notedefrais);
 	}
 
 }
