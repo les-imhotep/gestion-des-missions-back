@@ -15,6 +15,10 @@ import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.PourcentageException;
 import dev.repositories.NatureMissionRepo;
 
+/**
+ * @author Diginamic-02
+ *
+ */
 @Service
 public class NatureMissionService {
 	private NatureMissionRepo natureMissionRepo;
@@ -23,12 +27,24 @@ public class NatureMissionService {
 		this.natureMissionRepo = natureMissionRepo;
 	}
 
+	/**
+	 * lister toutes les natures de mission
+	 * 
+	 * @return la liste des natures de mission si sa date de fin n'est pas
+	 *         passée
+	 */
 	public List<NatureMission> findAllNatureMission() {
 		return natureMissionRepo.findAll().stream().filter(natureMission -> natureMission.getDateFin() == null)
 				.collect(Collectors.toList());
 
 	}
 
+	/**
+	 * supprimer une nature de mission
+	 * 
+	 * @param natureMission
+	 *            nature de mission à supprimer
+	 */
 	public void deleteNatureMission(NatureMission natureMission) {
 		if (this.natureMissionRepo.existsById(natureMission.getId())) {
 			this.natureMissionRepo.delete(natureMission);
@@ -39,6 +55,13 @@ public class NatureMissionService {
 
 	}
 
+	/**
+	 * sauvegarde une nouvelle nature de mission
+	 * 
+	 * @param natureMission
+	 *            nouvelle nature de mission
+	 * 
+	 */
 	public void addNatureMission(NatureMission natureMission) {
 		if (natureMission.getFacturation() == null) {
 			throw new InvalidFacturationException();
