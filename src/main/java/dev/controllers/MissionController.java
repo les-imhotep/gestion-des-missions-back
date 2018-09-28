@@ -38,7 +38,7 @@ public class MissionController extends AbstractControllerUser {
 	}
 
 	// *************************************POST***********************************************
-	@PostMapping(path = "/new")
+	@PostMapping("/new")
 	public void newMission(@RequestBody MissionDto missionDto) {
 		this.service.newMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
 

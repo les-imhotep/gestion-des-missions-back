@@ -85,10 +85,13 @@ public class StartupListener {
 
 		// Nature1 nature de mission fictive
 		NatureMission nature1 = new NatureMission();
+		nature1.setName("Expertise de Djamel");
 		nature1.setFacturation(Facturation.FACTUREE);
 		nature1.setPourcentage(10.00);
 		nature1.setPrime(true);
 		nature1.setTjm(2.50);
+		this.natureMissionRepo.save(nature1);
+
 		// Création de deux notes de frais
 		NoteDeFrais note1 = new NoteDeFrais();
 		note1.setDateDebut(LocalDate.of(2018, 8, 17));
@@ -126,18 +129,43 @@ public class StartupListener {
 		formation1.setFacturation(Facturation.NON_FACTUREE);
 		formation1.setName("Formation");
 		this.natureMissionRepo.save(formation1);
+
 		// ajout de misssions
 		Mission mission = new Mission();
 		mission.setCollegue(col1);
 		mission.setDateDebut(LocalDate.now());
 		mission.setDateFin(LocalDate.of(2019, 01, 21));
-		mission.setNatureMission(null);
+		mission.setNatureMission(expertiseTechnique);
 		mission.setPrime(5000);
 		mission.setTransport(Transport.AVION);
-		mission.setStatut(Statut.INITIALE);
+		mission.setStatut(Statut.VALIDEE);
 		mission.setVilleArrivee("Paris");
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
+
+		Mission mission2 = new Mission();
+		mission2.setCollegue(col1);
+		mission2.setDateDebut(LocalDate.of(2019, 02, 21));
+		mission2.setDateFin(LocalDate.of(2019, 02, 22));
+		mission2.setNatureMission(expertiseTechnique);
+		mission2.setPrime(5000);
+		mission2.setTransport(Transport.TRAIN);
+		mission2.setStatut(Statut.INITIALE);
+		mission2.setVilleArrivee("Lyon");
+		mission2.setVilleDepart("Nantes");
+		missionRepo.save(mission2);
+
+		Mission mission3 = new Mission();
+		mission3.setCollegue(col1);
+		mission3.setDateDebut(LocalDate.of(2019, 03, 21));
+		mission3.setDateFin(LocalDate.of(2019, 03, 22));
+		mission3.setNatureMission(expertiseTechnique);
+		mission3.setPrime(5000);
+		mission3.setTransport(Transport.COVOITURAGE);
+		mission3.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		mission3.setVilleArrivee("Paris");
+		mission3.setVilleDepart("Marseille");
+		missionRepo.save(mission3);
 
 	}
 

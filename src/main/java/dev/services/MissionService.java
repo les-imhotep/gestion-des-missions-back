@@ -13,6 +13,7 @@ import dev.entities.Collegue;
 import dev.entities.Mission;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
+import dev.exceptions.InvalidDateException;
 import dev.exceptions.InvalidDateMissionsException;
 import dev.exceptions.InvalidDateTransportMissionException;
 import dev.repositories.CollegueRepo;
@@ -57,7 +58,7 @@ public class MissionService {
 				|| mission.getDateDebut().getDayOfWeek().equals(DayOfWeek.SATURDAY)
 						&& (mission.getDateFin().getDayOfWeek().equals(DayOfWeek.SUNDAY)
 								|| mission.getDateFin().getDayOfWeek().equals(DayOfWeek.SATURDAY)))) {
-			throw new InvalidDateMissionsException();
+			throw new InvalidDateException();
 		} else {
 			String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Optional<Collegue> optCollegue = this.collegueRepo.findByEmail(email);
