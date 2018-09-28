@@ -22,6 +22,7 @@ import dev.entities.enumerations.Transport;
 import dev.repositories.CollegueRepo;
 import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
+import dev.repositories.NoteDeFraisRepo;
 import dev.repositories.VersionRepo;
 
 /**
@@ -34,19 +35,19 @@ public class StartupListener {
 	private VersionRepo versionRepo;
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
-
+	private NoteDeFraisRepo noteDeFraisRepo;
 	private NatureMissionRepo natureMissionRepo;
 	private MissionRepo missionRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
-			NatureMissionRepo natureMissionRepo) {
+			NatureMissionRepo natureMissionRepo, NoteDeFraisRepo noteDeFraisRepo) {
 
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
-
+		this.noteDeFraisRepo = noteDeFraisRepo;
 		this.natureMissionRepo = natureMissionRepo;
 		this.missionRepo = missionRepo;
 
@@ -83,21 +84,6 @@ public class StartupListener {
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER)));
 		this.collegueRepo.save(col3);
 
-		// Nature1 nature de mission fictive
-		NatureMission nature1 = new NatureMission();
-		nature1.setFacturation(Facturation.FACTUREE);
-		nature1.setPourcentage(10.00);
-		nature1.setPrime(true);
-		nature1.setTjm(2.50);
-		// Création de deux notes de frais
-		NoteDeFrais note1 = new NoteDeFrais();
-		note1.setDateDebut(LocalDate.of(2018, 8, 17));
-		note1.setDateFin(LocalDate.of(2018, 9, 30));
-		note1.setNatureMission(nature1);
-		note1.setVilleDepart("Nantes");
-		note1.setVilleArrivee("Rennes");
-		note1.setTransport(Transport.COVOITURAGE);
-
 		NatureMission conseil = new NatureMission();
 		conseil.setPourcentage(3.5);
 		conseil.setPrime(true);
@@ -126,6 +112,17 @@ public class StartupListener {
 		formation1.setFacturation(Facturation.NON_FACTUREE);
 		formation1.setName("Formation");
 		this.natureMissionRepo.save(formation1);
+
+		// Création de deux notes de frais
+		NoteDeFrais note1 = new NoteDeFrais();
+		note1.setDateDebut(LocalDate.of(2018, 8, 17));
+		note1.setDateFin(LocalDate.of(2018, 9, 30));
+		note1.setNatureMission(formation);
+		note1.setVilleDepart("Nantes");
+		note1.setVilleArrivee("Rennes");
+		note1.setTransport(Transport.COVOITURAGE);
+		this.noteDeFraisRepo.save(note1);
+
 		// ajout de misssions
 		Mission mission = new Mission();
 		mission.setCollegue(col1);
