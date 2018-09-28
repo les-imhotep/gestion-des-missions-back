@@ -16,6 +16,8 @@ import dev.entities.enumerations.Transport;
 import dev.exceptions.InvalidDateException;
 import dev.exceptions.InvalidDateMissionsException;
 import dev.exceptions.InvalidDateTransportMissionException;
+import dev.exceptions.InvalidIdException;
+import dev.exceptions.InvalidIdMissionException;
 import dev.repositories.CollegueRepo;
 import dev.repositories.MissionRepo;
 
@@ -71,5 +73,36 @@ public class MissionService {
 
 		}
 
+	}
+
+	public void deleteMission(Mission mission) {
+		if (this.missionRepo.existsById(mission.getId())) {
+			this.missionRepo.delete(mission);
+
+		} else {
+			throw new InvalidIdException();
+		}
+
+	}
+
+	public void updateMission(Mission missionAModifier) {
+
+		Mission missionModifie = new Mission();
+		// trouver la mission à modifier
+		if (this.missionRepo.existsById(missionAModifier.getId())) {
+
+			missionModifie.setDateDebut(missionAModifier.getDateDebut());
+			missionModifie.setDateFin(missionAModifier.getDateFin());
+			missionModifie.setNatureMission(missionAModifier.getNatureMission());
+			missionModifie.setTransport(missionAModifier.getTransport());
+			missionModifie.setVilleArrivee(missionAModifier.getVilleArrivee());
+			missionModifie.setVilleDepart(missionAModifier.getVilleDepart());
+			missionModifie.setStatut(Statut.INITIALE);
+			this.missionRepo.save(missionModifie);
+
+		} else {
+			throw new InvalidIdMissionException();
+
+		}
 	}
 }

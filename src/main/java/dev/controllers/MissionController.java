@@ -1,5 +1,8 @@
 package dev.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +42,35 @@ public class MissionController extends AbstractControllerUser {
 
 	// *************************************POST***********************************************
 	@PostMapping("/new")
-	public void newMission(@RequestBody MissionDto missionDto) {
+	public void newMission(@RequestBody MissionDto missionDto) throws ParseException {
+		// Formatter la date envoyer au format yyyy-MM-dd vers le format dto dd-MM-yyyy
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd-MM-yyyy");
+		// date debut
+		Date formaterDateDebut = formatter.parse(missionDto.getDateDebut());
+		String stringDateFormatDebut = formatter2.format(formaterDateDebut);
+		// date fin
+		Date formaterDateFin = formatter.parse(missionDto.getDateFin());
+		String stringDateFormatFin = formatter2.format(formaterDateFin);
+
+		// ----------------------------------------------------------
+		// ont set les nouveaux format de date (DEBUT/FIN) dans l'objet missionDto
+		missionDto.setDateDebut(stringDateFormatDebut);
+		missionDto.setDateFin(stringDateFormatFin);
+
 		this.service.newMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
+
+	}
+
+	@PostMapping("/delete")
+	public ResponseEntity<List<MissionDto>> deleteMission(@RequestBody MissionDto missionDto) {
+		this.service.deleteMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
+		return findAllMission();
+	}
+
+	@PostMapping("/update")
+	public void updateMission(@RequestBody MissionDto missionDto) {
+		this.service.updateMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
 
 	}
 }

@@ -27,8 +27,8 @@ public class MissionDto {
 	public MissionDto(Mission mission) {
 		super();
 		this.id = mission.getId();
-		this.dateDebut = mission.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
-		this.dateFin = mission.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.dateDebut = mission.getDateDebut().format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
+		this.dateFin = mission.getDateFin().format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
 		this.natureMission = mission.getNatureMission();
 		this.villeDepart = mission.getVilleDepart();
 		this.villeArrivee = mission.getVilleArrivee();

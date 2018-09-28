@@ -14,6 +14,7 @@ import dev.exceptions.InvalidDateMissionsException;
 import dev.exceptions.InvalidDateTransportMissionException;
 import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
+import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.InvalidNameException;
 import dev.exceptions.PourcentageException;
 
@@ -70,6 +71,12 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> invalidDateException() {
 		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_DATE,
 				"Une mission ne peu commencer ou se terminer, un jour non-travaillé"));
+	}
+
+	@ExceptionHandler(InvalidIdMissionException.class)
+	public ResponseEntity<?> InvalidIdMissionException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_ID_MISSION,
+				"Mission non trouvé en base,id incorrect ou connexion serveur perdu"));
 	}
 
 }

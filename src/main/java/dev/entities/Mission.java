@@ -37,8 +37,8 @@ public class Mission {
 	public Mission(MissionDto mission) {
 		super();
 		this.id = mission.getId();
-		this.dateDebut = LocalDate.parse(mission.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		this.dateFin = LocalDate.parse(mission.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateDebut = LocalDate.parse(mission.getDateDebut(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		this.dateFin = LocalDate.parse(mission.getDateFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		this.natureMission = mission.getNatureMission();
 		this.villeDepart = mission.getVilleDepart();
 		this.villeArrivee = mission.getVilleArrivee();
