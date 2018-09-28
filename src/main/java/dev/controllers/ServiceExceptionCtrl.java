@@ -51,6 +51,10 @@ public class ServiceExceptionCtrl {
 		return ResponseEntity.badRequest()
 				.body(new ErrorDto(ErrorCode.INVALID_POURCENTAGE, "Le pourcentage doit être inférieur à 10%"));
 	}
-	
+
+	@ExceptionHandler(NameAllreadyExcistsException.class)
+	public ResponseEntity<?> nameAllreadyExcistsException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "La nature existe déjà"));
+	}
 
 }

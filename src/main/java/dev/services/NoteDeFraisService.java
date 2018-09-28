@@ -20,4 +20,11 @@ public class NoteDeFraisService {
 	public List<NoteDeFrais> listerNoteDeFrais() {
 		return this.noteDeFraisRepo.findAll();
 	}
+
+	public void addNoteDefraisMission(NoteDeFrais noteDeFraisRepo) {
+
+		this.noteDeFraisRepo.save(noteDeFraisRepo);
+
+	}
+
 }

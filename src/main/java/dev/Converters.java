@@ -3,11 +3,13 @@ package dev;
 import org.springframework.core.convert.converter.Converter;
 
 import dev.controller.dto.AbsenceDto;
+import dev.controller.dto.LigneDeFraisDto;
 import dev.controller.dto.MissionDto;
 import dev.controller.dto.NatureMissionDto;
 import dev.controller.dto.NoteDeFraisDto;
 import dev.controller.dto.PrimeDto;
 import dev.entities.Absence;
+import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.NoteDeFrais;
@@ -53,6 +55,17 @@ public interface Converters {
 		return natureMission;
 	};
 	// Converter for noteDeFrais
+	Converter<LigneDeFrais, LigneDeFraisDto> LIGNEDEFRAIS_TO_LIGNEDEFRAIS_DTO = ligneDeFrais -> {
+		LigneDeFraisDto ligneDeFraisDto = new LigneDeFraisDto(ligneDeFrais);
+		return ligneDeFraisDto;
+	};
+
+	Converter<LigneDeFraisDto, LigneDeFrais> LIGNEDEFRAIS_DTO_TO_LIGNEDEFRAIS = ligneDeFraisDto -> {
+		LigneDeFrais ligneDeFrais = new LigneDeFrais(ligneDeFraisDto);
+		return ligneDeFrais;
+	};
+	// Converter for ligneDeFrais
+
 	Converter<NoteDeFrais, NoteDeFraisDto> NOTEDEFRAIS_TO_NOTEDEFRAIS_DTO = noteDeFrais -> {
 		NoteDeFraisDto noteDeFraisDto = new NoteDeFraisDto(noteDeFrais);
 		return noteDeFraisDto;
@@ -61,8 +74,8 @@ public interface Converters {
 	Converter<NoteDeFraisDto, NoteDeFrais> NOTEDEFRAIS_DTO_TO_NOTEDEFRAIS = noteDeFraisDto -> {
 		NoteDeFrais noteDeFrais = new NoteDeFrais(noteDeFraisDto);
 		return noteDeFrais;
-	};
 
+	};
 	// Converter for prime
 
 	Converter<Prime, PrimeDto> PRIME_TO_PRIME_DTO = prime -> {
