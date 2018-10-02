@@ -2,10 +2,13 @@ package dev.services;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +42,19 @@ public class MissionService {
 
 	}
 
-	public List<Mission> findAllMission(String username) {
+	public String getUserDetails() {
+		return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 
-		return this.missionRepo.findAllByCollegueEmail(username);
+	public List<Mission> findAllMission() {
+
+		return this.missionRepo.findAllByCollegueEmail(getUserDetails());
+
+	}
+
+	public List<Mission> findMissionbyStatut(String statut) {
+
+		return this.missionRepo.findAllByStatut(statut);
 
 	}
 
@@ -104,5 +117,59 @@ public class MissionService {
 			throw new InvalidIdMissionException();
 
 		}
+	}
+
+	@Scheduled(fixedRate = 1000)
+	public void Test() {
+
+		List<Mission> missions = listerMission().stream().filter(mission -> mission.getStatut().equals(Statut.INITIALE))
+				.collect(Collectors.toList());
+
+		missions.forEach(element -> {
+			element.setStatut(Statut.EN_ATTENTE_VALIDATION);
+			this.missionRepo.save(element);
+			List<Mission> missionByDateFinEchu = listerMission().stream()
+					.filter(missionDate -> missionDate.getDateFin().isBefore(LocalDate.now()))
+					.collect(Collectors.toList());
+
+			missionByDateFinEchu.forEach(mission -> {
+
+				if (mission.getNatureMission().getDateFin() == null) {
+					mission.setPrime(mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm());
+					this.missionRepo.save(mission);
+				} else if ((mission.getNatureMission().getDateFin() != null)
+						&& (mission.getDateDebut().isBefore(mission.getNatureMission().getDateFin()))) {
+					mission.setPrime(mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm());
+
+					this.missionRepo.save(mission);
+				}
+
+			});
+
+		});
+		// envoie mail manager a faire
+		// Prime = (nombre de jours travaillés)* TJM * %Prime/100
+	}
+
+	/**
+	 * Cette methode s'execute toutes les nuits à 1h du matin
+	 * 
+	 * Ont recupere la liste de toute les missions Ont la filtre par Statut =>
+	 * INITIALE Sur chaques elements de la liste ont set le statut a EN ATTENTE
+	 * DE VALIDATION
+	 * 
+	 * @return void
+	 */
+	@Scheduled(cron = "1 * * * * *")
+	public void TraitementDeNuit() {
+
+		List<Mission> missions = listerMission().stream().filter(mission -> mission.getStatut().equals(Statut.INITIALE))
+				.collect(Collectors.toList());
+
+		missions.forEach(element -> {
+			element.setStatut(Statut.EN_ATTENTE_VALIDATION);
+			this.missionRepo.save(element);
+		});
+		System.out.println("cron success" + " " + LocalTime.now());
 	}
 }

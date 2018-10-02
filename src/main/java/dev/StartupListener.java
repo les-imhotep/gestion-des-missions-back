@@ -138,7 +138,7 @@ public class StartupListener {
 		mission.setNatureMission(expertiseTechnique);
 		mission.setPrime(5000);
 		mission.setTransport(Transport.AVION);
-		mission.setStatut(Statut.VALIDEE);
+		mission.setStatut(Statut.INITIALE);
 		mission.setVilleArrivee("Paris");
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
@@ -162,7 +162,7 @@ public class StartupListener {
 		mission3.setNatureMission(expertiseTechnique);
 		mission3.setPrime(5000);
 		mission3.setTransport(Transport.COVOITURAGE);
-		mission3.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		mission3.setStatut(Statut.INITIALE);
 		mission3.setVilleArrivee("Paris");
 		mission3.setVilleDepart("Marseille");
 		missionRepo.save(mission3);
