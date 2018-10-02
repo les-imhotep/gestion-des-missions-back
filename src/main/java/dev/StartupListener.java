@@ -10,9 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entities.Collegue;
+import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
-import dev.entities.NoteDeFrais;
+import dev.entities.Prime;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
@@ -20,9 +21,11 @@ import dev.entities.enumerations.Role;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
 import dev.repositories.CollegueRepo;
+import dev.repositories.LigneDeFraisRepo;
 import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
 import dev.repositories.NoteDeFraisRepo;
+import dev.repositories.PrimeRepo;
 import dev.repositories.VersionRepo;
 
 /**
@@ -36,20 +39,26 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 	private NoteDeFraisRepo noteDeFraisRepo;
+	private LigneDeFraisRepo ligneDeFraisRepo;
+	private PrimeRepo primeRepo;
 	private NatureMissionRepo natureMissionRepo;
 	private MissionRepo missionRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
-			NatureMissionRepo natureMissionRepo, NoteDeFraisRepo noteDeFraisRepo) {
+			NatureMissionRepo natureMissionRepo, NoteDeFraisRepo noteDeFraisRepo, LigneDeFraisRepo ligneDeFraisRepo,
+			PrimeRepo primeRepo) {
 
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
 		this.noteDeFraisRepo = noteDeFraisRepo;
+		this.primeRepo = primeRepo;
+		this.noteDeFraisRepo = noteDeFraisRepo;
 		this.natureMissionRepo = natureMissionRepo;
 		this.missionRepo = missionRepo;
+		this.ligneDeFraisRepo = ligneDeFraisRepo;
 
 	}
 
@@ -92,6 +101,25 @@ public class StartupListener {
 		conseil.setName("Conseil");
 		this.natureMissionRepo.save(conseil);
 
+		// Création de deux notes de frais
+		LigneDeFrais ligneDeFrais = new LigneDeFrais();
+		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
+		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
+		ligneDeFrais.setNatureMission(conseil);
+		ligneDeFrais.setVilleDepart("Nantes");
+		ligneDeFrais.setVilleArrivee("Rennes");
+		ligneDeFrais.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais);
+
+		LigneDeFrais ligneDeFrais1 = new LigneDeFrais();
+		ligneDeFrais1.setDateDebut(LocalDate.of(1018, 8, 17));
+		ligneDeFrais1.setDateFin(LocalDate.of(1018, 9, 30));
+		ligneDeFrais1.setNatureMission(conseil);
+		ligneDeFrais1.setVilleDepart("Nantes");
+		ligneDeFrais1.setVilleArrivee("Rennes");
+		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais1);
+
 		NatureMission expertiseTechnique = new NatureMission();
 		expertiseTechnique.setPourcentage(4);
 		expertiseTechnique.setPrime(true);
@@ -113,16 +141,6 @@ public class StartupListener {
 		formation1.setName("Formation");
 		this.natureMissionRepo.save(formation1);
 
-		// Création de deux notes de frais
-		NoteDeFrais note1 = new NoteDeFrais();
-		note1.setDateDebut(LocalDate.of(2018, 8, 17));
-		note1.setDateFin(LocalDate.of(2018, 9, 30));
-		note1.setNatureMission(formation);
-		note1.setVilleDepart("Nantes");
-		note1.setVilleArrivee("Rennes");
-		note1.setTransport(Transport.COVOITURAGE);
-		this.noteDeFraisRepo.save(note1);
-
 		// ajout de misssions
 		Mission mission = new Mission();
 		mission.setCollegue(col1);
@@ -136,6 +154,13 @@ public class StartupListener {
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
 
+		// primes
+		Prime prime = new Prime();
+		prime.setDateDebut(LocalDate.of(1999, 2, 15));
+		prime.setDateFin(null);
+		prime.setMontant(1000);
+		prime.setNatureMission(conseil);
+		primeRepo.save(prime);
 	}
 
 }

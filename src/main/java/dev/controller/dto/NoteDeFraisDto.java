@@ -1,20 +1,13 @@
 package dev.controller.dto;
 
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-import dev.entities.NatureMission;
+import dev.entities.LigneDeFrais;
 import dev.entities.NoteDeFrais;
-import dev.entities.enumerations.Transport;
 
 public class NoteDeFraisDto {
 	private Long id;
-	private String dateDebut;
-	private String dateFin;
-	private NatureMission natureMission;
-	private String villeDepart;
-	private String villeArrivee;
-	private Transport transport;
-	private double frais;
+	private List<LigneDeFrais> lignesDeFrais;
 
 	public NoteDeFraisDto() {
 		super();
@@ -22,70 +15,16 @@ public class NoteDeFraisDto {
 
 	public NoteDeFraisDto(NoteDeFrais noteDeFrais) {
 		super();
+
 		this.id = noteDeFrais.getId();
-		this.dateDebut = noteDeFrais.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
-		this.dateFin = noteDeFrais.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
-		this.natureMission = noteDeFrais.getNatureMission();
-		this.villeDepart = noteDeFrais.getVilleDepart();
-		this.villeArrivee = noteDeFrais.getVilleArrivee();
-		this.transport = noteDeFrais.getTransport();
-		this.frais = noteDeFrais.getFrais();
+		this.lignesDeFrais = noteDeFrais.getLignesDeFrais();
+
 	}
 
-	public String getDateDebut() {
-		return dateDebut;
-	}
-
-	public void setDateDebut(String dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-
-	public String getDateFin() {
-		return dateFin;
-	}
-
-	public void setDateFin(String dateFin) {
-		this.dateFin = dateFin;
-	}
-
-	public NatureMission getNatureMission() {
-		return natureMission;
-	}
-
-	public void setNatureMission(NatureMission natureMission) {
-		this.natureMission = natureMission;
-	}
-
-	public String getVilleDepart() {
-		return villeDepart;
-	}
-
-	public void setVilleDepart(String villeDepart) {
-		this.villeDepart = villeDepart;
-	}
-
-	public String getVilleArrivee() {
-		return villeArrivee;
-	}
-
-	public void setVilleArrivee(String villeArrivee) {
-		this.villeArrivee = villeArrivee;
-	}
-
-	public Transport getTransport() {
-		return transport;
-	}
-
-	public void setTransport(Transport transport) {
-		this.transport = transport;
-	}
-
-	public double getFrais() {
-		return frais;
-	}
-
-	public void setFrais(double frais) {
-		this.frais = frais;
+	public NoteDeFraisDto(Long id, List<LigneDeFrais> lignesDeFrais) {
+		super();
+		this.id = id;
+		this.lignesDeFrais = lignesDeFrais;
 	}
 
 	public Long getId() {
@@ -94,6 +33,14 @@ public class NoteDeFraisDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<LigneDeFrais> getLignesDeFrais() {
+		return lignesDeFrais;
+	}
+
+	public void setLignesDeFrais(List<LigneDeFrais> lignesDeFrais) {
+		this.lignesDeFrais = lignesDeFrais;
 	}
 
 }
