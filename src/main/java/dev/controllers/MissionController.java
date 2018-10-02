@@ -19,6 +19,7 @@ import dev.services.MissionService;
 @CrossOrigin
 @RestController() // @Controller + @ResponseBody
 @RequestMapping("/missions")
+
 public class MissionController extends AbstractControllerUser {
 
 	@Autowired
@@ -31,8 +32,7 @@ public class MissionController extends AbstractControllerUser {
 	// *************************************GET***********************************************
 	@GetMapping
 	public ResponseEntity<List<MissionDto>> findAllMission() {
-		String username = getUserDetails();
-		return ResponseEntity.ok(this.service.findAllMission(username).stream()
+		return ResponseEntity.ok(this.service.findAllMission().stream()
 				.map(mission -> dev.Converters.MISSION_TO_MISSION_DTO.convert(mission)).collect(Collectors.toList()));
 
 	}

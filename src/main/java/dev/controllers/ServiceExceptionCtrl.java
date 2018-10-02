@@ -1,5 +1,7 @@
 package dev.controllers;
 
+import java.io.IOException;
+
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +15,7 @@ import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
 import dev.exceptions.InvalidNameException;
 import dev.exceptions.NameAllreadyExcistsException;
+import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
 
 @ControllerAdvice
@@ -57,4 +60,14 @@ public class ServiceExceptionCtrl {
 		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "La nature existe déjà"));
 	}
 
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<?> IOException() {
+		return ResponseEntity.badRequest()
+				.body(new ErrorDto(ErrorCode.FILE_ERROR, "Problème lors de la création du fichier"));
+	}
+
+	@ExceptionHandler(NoPrimeException.class)
+	public ResponseEntity<?> NoPrimeException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.NO_PRIME, "Aucune prime n'a été trouvée"));
+	}
 }

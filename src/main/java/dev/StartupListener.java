@@ -16,7 +16,6 @@ import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.NoteDeFrais;
-import dev.entities.Prime;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
@@ -28,7 +27,6 @@ import dev.repositories.LigneDeFraisRepo;
 import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
 import dev.repositories.NoteDeFraisRepo;
-import dev.repositories.PrimeRepo;
 import dev.repositories.VersionRepo;
 
 /**
@@ -42,21 +40,18 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 	private LigneDeFraisRepo ligneDeFraisRepo;
-	private PrimeRepo primeRepo;
 	private NatureMissionRepo natureMissionRepo;
 	private MissionRepo missionRepo;
 	private NoteDeFraisRepo noteDeFrais;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
-			NatureMissionRepo natureMissionRepo, LigneDeFraisRepo ligneDeFraisRepo, PrimeRepo primeRepo,
-			NoteDeFraisRepo noteDeFrais) {
+			NatureMissionRepo natureMissionRepo, LigneDeFraisRepo ligneDeFraisRepo, NoteDeFraisRepo noteDeFrais) {
 
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
-		this.primeRepo = primeRepo;
 		this.natureMissionRepo = natureMissionRepo;
 		this.missionRepo = missionRepo;
 		this.ligneDeFraisRepo = ligneDeFraisRepo;
@@ -123,6 +118,7 @@ public class StartupListener {
 		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
 		this.ligneDeFraisRepo.save(ligneDeFrais1);
 
+		// création de 3 nature
 		NatureMission expertiseTechnique = new NatureMission();
 		expertiseTechnique.setPourcentage(4);
 		expertiseTechnique.setPrime(true);
@@ -141,7 +137,7 @@ public class StartupListener {
 		NatureMission formation1 = new NatureMission();
 		formation1.setPrime(true);
 		formation1.setFacturation(Facturation.NON_FACTUREE);
-		formation1.setName("Formation");
+		formation1.setName("Jean");
 		this.natureMissionRepo.save(formation1);
 
 		// ajout de misssions
@@ -149,21 +145,34 @@ public class StartupListener {
 		mission.setCollegue(col1);
 		mission.setDateDebut(LocalDate.now());
 		mission.setDateFin(LocalDate.of(2019, 01, 21));
-		mission.setNatureMission(null);
-		mission.setPrime(5000);
+		mission.setNatureMission(conseil);
 		mission.setTransport(Transport.AVION);
 		mission.setStatut(Statut.INITIALE);
 		mission.setVilleArrivee("Paris");
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
 
-		// primes
-		Prime prime = new Prime();
-		prime.setDateDebut(LocalDate.of(1999, 2, 15));
-		prime.setDateFin(null);
-		prime.setMontant(1000);
-		prime.setNatureMission(conseil);
-		primeRepo.save(prime);
+		Mission mission1 = new Mission();
+		mission1.setCollegue(col1);
+		mission1.setDateDebut(LocalDate.now());
+		mission1.setDateFin(LocalDate.of(2019, 01, 21));
+		mission1.setNatureMission(expertiseTechnique);
+		mission1.setTransport(Transport.COVOITURAGE);
+		mission1.setStatut(Statut.INITIALE);
+		mission1.setVilleArrivee("Dakar");
+		mission1.setVilleDepart("Marseille");
+		missionRepo.save(mission1);
+
+		Mission mission2 = new Mission();
+		mission2.setCollegue(col2);
+		mission2.setDateDebut(LocalDate.now());
+		mission2.setDateFin(LocalDate.of(2020, 01, 21));
+		mission2.setNatureMission(formation1);
+		mission2.setTransport(Transport.VOITURE_SERVICE);
+		mission2.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		mission2.setVilleArrivee("Oui");
+		mission2.setVilleDepart("Perle");
+		missionRepo.save(mission2);
 
 		// notes de frais
 		NoteDeFrais notedefrais = new NoteDeFrais();
