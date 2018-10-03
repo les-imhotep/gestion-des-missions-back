@@ -34,18 +34,18 @@ public class Mission {
 		super();
 	}
 
-	public Mission(MissionDto mission) {
+	public Mission(MissionDto missionDto) {
 		super();
-		this.id = mission.getId();
-		this.dateDebut = LocalDate.parse(mission.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		this.dateFin = LocalDate.parse(mission.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		this.natureMission = mission.getNatureMission();
-		this.villeDepart = mission.getVilleDepart();
-		this.villeArrivee = mission.getVilleArrivee();
-		this.transport = mission.getTransport();
-		this.statut = mission.getStatut();
-		this.prime = mission.getPrime();
-		this.collegue = mission.getCollegue();
+		this.id = missionDto.getId();
+		this.dateDebut = LocalDate.parse(missionDto.getDateDebut(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.dateFin = LocalDate.parse(missionDto.getDateFin(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.natureMission = missionDto.getNatureMission();
+		this.villeDepart = missionDto.getVilleDepart();
+		this.villeArrivee = missionDto.getVilleArrivee();
+		this.transport = missionDto.getTransport();
+		this.statut = missionDto.getStatut();
+		this.prime = missionDto.getPrime();
+		this.collegue = missionDto.getCollegue();
 	}
 
 	public Collegue getCollegue() {

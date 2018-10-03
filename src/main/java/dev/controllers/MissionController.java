@@ -1,5 +1,6 @@
 package dev.controllers;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ import dev.services.MissionService;
 @CrossOrigin
 @RestController() // @Controller + @ResponseBody
 @RequestMapping("/missions")
-public class MissionController extends AbstractControllerUser {
+public class MissionController {
 
 	@Autowired
 	private MissionService service;
@@ -29,18 +30,34 @@ public class MissionController extends AbstractControllerUser {
 	}
 
 	// *************************************GET***********************************************
+
 	@GetMapping
 	public ResponseEntity<List<MissionDto>> findAllMission() {
-		String username = getUserDetails();
-		return ResponseEntity.ok(this.service.findAllMission(username).stream()
+
+		return ResponseEntity.ok(this.service.findAllMission().stream()
 				.map(mission -> dev.Converters.MISSION_TO_MISSION_DTO.convert(mission)).collect(Collectors.toList()));
 
 	}
 
 	// *************************************POST***********************************************
-	@PostMapping(path = "/new")
-	public void newMission(@RequestBody MissionDto missionDto) {
+	@PostMapping("/new")
+	public void newMission(@RequestBody MissionDto missionDto) throws ParseException {
+		// Formatter la date envoyer au format yyyy-MM-dd vers le format dto
+		// dd-MM-yyyy
+
 		this.service.newMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
+
+	}
+
+	@PostMapping("/delete")
+	public ResponseEntity<List<MissionDto>> deleteMission(@RequestBody MissionDto missionDto) {
+		this.service.deleteMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
+		return findAllMission();
+	}
+
+	@PostMapping("/update")
+	public void updateMission(@RequestBody MissionDto missionDto) {
+		this.service.updateMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
 
 	}
 }
