@@ -31,7 +31,7 @@ public class NoteDeFrais {
 
 		this.id = noteDeFraisDto.getId();
 		this.lignesDeFrais = noteDeFraisDto.getLignesDeFrais();
-		this.mission = noteDeFraisDto.getMission();
+		this.mission = dev.Converters.MISSION_DTO_TO_MISSION.convert(noteDeFraisDto.getMission());
 
 	}
 

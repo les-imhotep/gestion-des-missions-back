@@ -89,6 +89,14 @@ public class StartupListener {
 		this.collegueRepo.save(col3);
 
 		// Nature1 nature de mission fictive
+		NatureMission nature1 = new NatureMission();
+		nature1.setName("Expertise de Djamel");
+		nature1.setFacturation(Facturation.FACTUREE);
+		nature1.setPourcentage(10.00);
+		nature1.setPrime(true);
+		nature1.setTjm(2.50);
+		this.natureMissionRepo.save(nature1);
+
 		NatureMission conseil = new NatureMission();
 		conseil.setPourcentage(3.5);
 		conseil.setPrime(true);
@@ -124,6 +132,8 @@ public class StartupListener {
 		mission.setDateDebut(LocalDate.now());
 		mission.setDateFin(LocalDate.of(2019, 01, 21));
 		mission.setNatureMission(conseil);
+		mission.setNatureMission(expertiseTechnique);
+		mission.setPrime(0);
 		mission.setTransport(Transport.AVION);
 		mission.setStatut(Statut.INITIALE);
 		mission.setVilleArrivee("Paris");
@@ -142,7 +152,7 @@ public class StartupListener {
 		missionRepo.save(mission1);
 
 		Mission mission2 = new Mission();
-		mission2.setCollegue(col2); 
+		mission2.setCollegue(col2);
 		mission2.setDateDebut(LocalDate.now());
 		mission2.setDateFin(LocalDate.of(2020, 01, 21));
 		mission2.setNatureMission(formation1);
@@ -152,7 +162,7 @@ public class StartupListener {
 		mission2.setVilleDepart("Perle");
 		missionRepo.save(mission2);
 
-		// Création de deux lignes de frais
+		// Création de lignes de frais
 		LigneDeFrais ligneDeFrais = new LigneDeFrais();
 		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
 		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
