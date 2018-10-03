@@ -9,5 +9,7 @@ import dev.entities.Mission;
 public interface MissionRepo extends JpaRepository<Mission, Long> {
 	List<Mission> findAllByCollegueEmail(String username);
 
+	List<Mission> findAllByStatut(String statut);
+
 	boolean existsById(Long id);
 }

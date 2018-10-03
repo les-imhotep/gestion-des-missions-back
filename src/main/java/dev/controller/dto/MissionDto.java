@@ -12,6 +12,8 @@ public class MissionDto {
 	private Long id;
 	private String dateDebut;
 	private String dateFin;
+	private String dateDebutAffiche;
+	private String dateFinAffiche;
 	private NatureMission natureMission;
 	private String villeDepart;
 	private String villeArrivee;
@@ -27,8 +29,10 @@ public class MissionDto {
 	public MissionDto(Mission mission) {
 		super();
 		this.id = mission.getId();
-		this.dateDebut = mission.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
-		this.dateFin = mission.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		this.dateDebut = mission.getDateDebut().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.dateFin = mission.getDateFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.dateDebutAffiche = mission.getDateDebut().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.dateFinAffiche = mission.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		this.natureMission = mission.getNatureMission();
 		this.villeDepart = mission.getVilleDepart();
 		this.villeArrivee = mission.getVilleArrivee();
@@ -115,6 +119,22 @@ public class MissionDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDateDebutAffiche() {
+		return dateDebutAffiche;
+	}
+
+	public void setDateDebutAffiche(String dateDebutAffiche) {
+		this.dateDebutAffiche = dateDebutAffiche;
+	}
+
+	public String getDateFinAffiche() {
+		return dateFinAffiche;
+	}
+
+	public void setDateFinAffiche(String dateFinAffiche) {
+		this.dateFinAffiche = dateFinAffiche;
 	}
 
 }

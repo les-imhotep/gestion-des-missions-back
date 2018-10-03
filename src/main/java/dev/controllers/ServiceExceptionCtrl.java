@@ -9,8 +9,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import dev.controller.dto.ErrorCode;
 import dev.controller.dto.ErrorDto;
+import dev.exceptions.InvalidDateException;
+import dev.exceptions.InvalidDateMissionsException;
+import dev.exceptions.InvalidDateTransportMissionException;
 import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
+import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.InvalidNameException;
 import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.PourcentageException;
@@ -52,9 +56,34 @@ public class ServiceExceptionCtrl {
 				.body(new ErrorDto(ErrorCode.INVALID_POURCENTAGE, "Le pourcentage doit être inférieur à 10%"));
 	}
 
+	@ExceptionHandler(InvalidDateTransportMissionException.class)
+	public ResponseEntity<?> invalidDateTransportMissionException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.TO_SHORT_DATE,
+				"Une anticipation de 7 jours est exigée pour ce mode de transport"));
+	}
+
+	@ExceptionHandler(InvalidDateMissionsException.class)
+	public ResponseEntity<?> invalidDateMissionsException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_DATE,
+				"une mission ne peut pas débuter le jour même, ni dans le passé "));
+	}
+
+	@ExceptionHandler(InvalidDateException.class)
+	public ResponseEntity<?> invalidDateException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_DATE,
+				"Une mission ne peu commencer ou se terminer, un jour non-travaillé"));
+	}
+
+	@ExceptionHandler(InvalidIdMissionException.class)
+	public ResponseEntity<?> InvalidIdMissionException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_ID_MISSION,
+				"Mission non trouvé en base,id incorrect ou connexion serveur perdu"));
+	}
+
 	@ExceptionHandler(NameAllreadyExcistsException.class)
 	public ResponseEntity<?> nameAllreadyExcistsException() {
 		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "La nature existe déjà"));
+
 	}
 
 }

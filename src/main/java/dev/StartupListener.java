@@ -93,6 +93,30 @@ public class StartupListener {
 		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER)));
 		this.collegueRepo.save(col3);
 
+<<<<<<< HEAD
+=======
+		// Nature1 nature de mission fictive
+<<<<<<< HEAD
+		NatureMission nature1 = new NatureMission();
+		nature1.setName("Expertise de Djamel");
+		nature1.setFacturation(Facturation.FACTUREE);
+		nature1.setPourcentage(10.00);
+		nature1.setPrime(true);
+		nature1.setTjm(2.50);
+		this.natureMissionRepo.save(nature1);
+
+		// Création de deux notes de frais
+		NoteDeFrais note1 = new NoteDeFrais();
+		note1.setDateDebut(LocalDate.of(2018, 8, 17));
+		note1.setDateFin(LocalDate.of(2018, 9, 30));
+		note1.setNatureMission(nature1);
+		note1.setVilleDepart("Nantes");
+		note1.setVilleArrivee("Rennes");
+		note1.setTransport(Transport.COVOITURAGE);
+
+=======
+>>>>>>> master
+>>>>>>> 94c6f2df95160bfccc7553d0ea830e98e9bd3ae6
 		NatureMission conseil = new NatureMission();
 		conseil.setPourcentage(3.5);
 		conseil.setPrime(true);
@@ -146,13 +170,39 @@ public class StartupListener {
 		mission.setCollegue(col1);
 		mission.setDateDebut(LocalDate.now());
 		mission.setDateFin(LocalDate.of(2019, 01, 21));
-		mission.setNatureMission(null);
-		mission.setPrime(5000);
+		mission.setNatureMission(expertiseTechnique);
+		mission.setPrime(0);
 		mission.setTransport(Transport.AVION);
 		mission.setStatut(Statut.INITIALE);
 		mission.setVilleArrivee("Paris");
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
+
+
+		Mission mission2 = new Mission();
+		mission2.setCollegue(col1);
+		mission2.setDateDebut(LocalDate.of(2019, 02, 21));
+		mission2.setDateFin(LocalDate.of(2019, 02, 22));
+		mission2.setNatureMission(expertiseTechnique);
+		mission2.setPrime(0);
+		mission2.setTransport(Transport.TRAIN);
+		mission2.setStatut(Statut.INITIALE);
+		mission2.setVilleArrivee("Lyon");
+		mission2.setVilleDepart("Nantes");
+		missionRepo.save(mission2);
+
+		Mission mission3 = new Mission();
+		mission3.setCollegue(col1);
+		mission3.setDateDebut(LocalDate.of(2018, 03, 21));
+		mission3.setDateFin(LocalDate.of(2018, 03, 23));
+		mission3.setNatureMission(formation1);
+		mission3.setPrime(0);
+		mission3.setTransport(Transport.COVOITURAGE);
+		mission3.setStatut(Statut.INITIALE);
+		mission3.setVilleArrivee("Paris");
+		mission3.setVilleDepart("Marseille");
+		missionRepo.save(mission3);
+
 
 		// primes
 		Prime prime = new Prime();
@@ -161,6 +211,7 @@ public class StartupListener {
 		prime.setMontant(1000);
 		prime.setNatureMission(conseil);
 		primeRepo.save(prime);
+
 	}
 
 }
