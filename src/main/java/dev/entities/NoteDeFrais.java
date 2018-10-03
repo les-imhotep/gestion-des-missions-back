@@ -1,5 +1,6 @@
 package dev.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import dev.controller.dto.NoteDeFraisDto;
 
@@ -16,7 +18,9 @@ public class NoteDeFrais {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@OneToMany
-	private List<LigneDeFrais> lignesDeFrais;
+	private List<LigneDeFrais> lignesDeFrais = new ArrayList<>();
+	@OneToOne
+	private Mission mission;
 
 	public NoteDeFrais() {
 		super();
@@ -27,13 +31,15 @@ public class NoteDeFrais {
 
 		this.id = noteDeFraisDto.getId();
 		this.lignesDeFrais = noteDeFraisDto.getLignesDeFrais();
+		this.mission = noteDeFraisDto.getMission();
 
 	}
 
-	public NoteDeFrais(Long id, List<LigneDeFrais> lignesDeFrais) {
+	public NoteDeFrais(Long id, List<LigneDeFrais> lignesDeFrais, Mission mission) {
 		super();
 		this.id = id;
 		this.lignesDeFrais = lignesDeFrais;
+		this.mission = mission;
 	}
 
 	public Long getId() {
@@ -50,6 +56,14 @@ public class NoteDeFrais {
 
 	public void setLignesDeFrais(List<LigneDeFrais> lignesDeFrais) {
 		this.lignesDeFrais = lignesDeFrais;
+	}
+
+	public Mission getMission() {
+		return mission;
+	}
+
+	public void setMission(Mission mission) {
+		this.mission = mission;
 	}
 
 }

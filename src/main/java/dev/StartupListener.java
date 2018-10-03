@@ -1,9 +1,7 @@
 package dev;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -99,34 +97,6 @@ public class StartupListener {
 		conseil.setName("Conseil");
 		this.natureMissionRepo.save(conseil);
 
-		// Création de deux notes de frais
-		LigneDeFrais ligneDeFrais = new LigneDeFrais();
-		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
-		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
-		ligneDeFrais.setNatureMission(conseil);
-		ligneDeFrais.setVilleDepart("Nantes");
-		ligneDeFrais.setVilleArrivee("Rennes");
-		ligneDeFrais.setTransport(Transport.COVOITURAGE);
-		this.ligneDeFraisRepo.save(ligneDeFrais);
-
-		LigneDeFrais ligneDeFrais1 = new LigneDeFrais();
-		ligneDeFrais1.setDateDebut(LocalDate.of(1018, 8, 17));
-		ligneDeFrais1.setDateFin(LocalDate.of(1018, 9, 30));
-		ligneDeFrais1.setNatureMission(conseil);
-		ligneDeFrais1.setVilleDepart("Nantes");
-		ligneDeFrais1.setVilleArrivee("Rennes");
-		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
-		this.ligneDeFraisRepo.save(ligneDeFrais1);
-
-		// création de 3 nature
-		NatureMission expertiseTechnique = new NatureMission();
-		expertiseTechnique.setPourcentage(4);
-		expertiseTechnique.setPrime(true);
-		expertiseTechnique.setTjm(1000);
-		expertiseTechnique.setFacturation(Facturation.FACTUREE);
-		expertiseTechnique.setName("Expertise technique");
-		this.natureMissionRepo.save(expertiseTechnique);
-
 		NatureMission formation = new NatureMission();
 		formation.setPrime(false);
 		formation.setFacturation(Facturation.NON_FACTUREE);
@@ -139,6 +109,14 @@ public class StartupListener {
 		formation1.setFacturation(Facturation.NON_FACTUREE);
 		formation1.setName("Jean");
 		this.natureMissionRepo.save(formation1);
+
+		NatureMission expertiseTechnique = new NatureMission();
+		expertiseTechnique.setPourcentage(4);
+		expertiseTechnique.setPrime(true);
+		expertiseTechnique.setTjm(1000);
+		expertiseTechnique.setFacturation(Facturation.FACTUREE);
+		expertiseTechnique.setName("Expertise technique");
+		this.natureMissionRepo.save(expertiseTechnique);
 
 		// ajout de misssions
 		Mission mission = new Mission();
@@ -164,7 +142,7 @@ public class StartupListener {
 		missionRepo.save(mission1);
 
 		Mission mission2 = new Mission();
-		mission2.setCollegue(col2);
+		mission2.setCollegue(col2); 
 		mission2.setDateDebut(LocalDate.now());
 		mission2.setDateFin(LocalDate.of(2020, 01, 21));
 		mission2.setNatureMission(formation1);
@@ -174,13 +152,46 @@ public class StartupListener {
 		mission2.setVilleDepart("Perle");
 		missionRepo.save(mission2);
 
+		// Création de deux lignes de frais
+		LigneDeFrais ligneDeFrais = new LigneDeFrais();
+		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
+		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
+		ligneDeFrais.setNatureMission(conseil);
+		ligneDeFrais.setVilleDepart("Nantes");
+		ligneDeFrais.setVilleArrivee("Rennes");
+		ligneDeFrais.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais);
+
+		LigneDeFrais ligneDeFrais1 = new LigneDeFrais();
+		ligneDeFrais1.setDateDebut(LocalDate.of(1018, 8, 17));
+		ligneDeFrais1.setDateFin(LocalDate.of(1018, 9, 30));
+		ligneDeFrais1.setNatureMission(conseil);
+		ligneDeFrais1.setVilleDepart("Nantes");
+		ligneDeFrais1.setVilleArrivee("Rennes");
+		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais1);
+
+		LigneDeFrais ligneDeFrais2 = new LigneDeFrais();
+		ligneDeFrais2.setDateDebut(LocalDate.of(2018, 8, 17));
+		ligneDeFrais2.setDateFin(LocalDate.of(2018, 9, 30));
+		ligneDeFrais2.setNatureMission(conseil);
+		ligneDeFrais2.setVilleDepart("Nantes");
+		ligneDeFrais2.setVilleArrivee("Rennes");
+		ligneDeFrais2.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais2);
+
 		// notes de frais
 		NoteDeFrais notedefrais = new NoteDeFrais();
-		List<LigneDeFrais> lignesdefrais = new ArrayList<LigneDeFrais>();
-		lignesdefrais.add(ligneDeFrais1);
-		lignesdefrais.add(ligneDeFrais);
-		notedefrais.setLignesDeFrais(lignesdefrais);
+		notedefrais.getLignesDeFrais().add(ligneDeFrais);
+		notedefrais.setMission(mission2);
 		noteDeFrais.save(notedefrais);
+
+		NoteDeFrais notedefrais1 = new NoteDeFrais();
+		notedefrais1.getLignesDeFrais().add(ligneDeFrais1);
+		notedefrais1.getLignesDeFrais().add(ligneDeFrais2);
+		notedefrais1.setMission(mission1);
+		noteDeFrais.save(notedefrais1);
+
 	}
 
 }
