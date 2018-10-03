@@ -8,6 +8,7 @@ import dev.entities.NoteDeFrais;
 public class NoteDeFraisDto {
 	private Long id;
 	private List<LigneDeFrais> lignesDeFrais;
+	private MissionDto mission;
 
 	public NoteDeFraisDto() {
 		super();
@@ -18,12 +19,14 @@ public class NoteDeFraisDto {
 
 		this.id = noteDeFrais.getId();
 		this.lignesDeFrais = noteDeFrais.getLignesDeFrais();
+		this.mission = dev.Converters.MISSION_TO_MISSION_DTO.convert(noteDeFrais.getMission());
 
 	}
 
-	public NoteDeFraisDto(Long id, List<LigneDeFrais> lignesDeFrais) {
+	public NoteDeFraisDto(Long id, List<LigneDeFrais> lignesDeFrais, MissionDto mission) {
 		super();
 		this.id = id;
+		this.mission = mission;
 		this.lignesDeFrais = lignesDeFrais;
 	}
 
@@ -41,6 +44,14 @@ public class NoteDeFraisDto {
 
 	public void setLignesDeFrais(List<LigneDeFrais> lignesDeFrais) {
 		this.lignesDeFrais = lignesDeFrais;
+	}
+
+	public MissionDto getMission() {
+		return mission;
+	}
+
+	public void setMission(MissionDto mission) {
+		this.mission = mission;
 	}
 
 }
