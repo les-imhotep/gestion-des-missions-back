@@ -37,27 +37,65 @@ public class MissionService {
 		super();
 	}
 
+	/**
+	 * liste toutes les mission en base
+	 * 
+	 * @return la liste des mission en base
+	 */
 	public List<Mission> listerMission() {
 		return this.missionRepo.findAll();
 
 	}
 
+	/**
+	 * Methode permettant de trouver l'utilisteur connecté
+	 * 
+	 * @return Le user name de l'utilisateur connecter ici l'adresse mail
+	 */
 	public String getUserDetails() {
 		return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 
+	/**
+	 * Liste des mission d'un utilisteur connecté
+	 * 
+	 * @return return seulement les missions de l'utilisateur actuel connecté
+	 */
 	public List<Mission> findAllMission() {
 
 		return this.missionRepo.findAllByCollegueEmail(getUserDetails());
 
 	}
 
+	/**
+	 * liste les mission par statut
+	 * 
+	 * @param statut
+	 * @return retourne que les mission du status renseigner
+	 */
 	public List<Mission> findMissionbyStatut(String statut) {
 
 		return this.missionRepo.findAllByStatut(statut);
 
 	}
 
+	/**
+	 * Je controle les parametre suivant : si le type de transport est l'avion,
+	 * une anticipation de 7 jours est exigée sinon je renvoie une exception la
+	 * date de fin est supérieure ou égale à la date de début sinon je renvoie
+	 * une exception mission qui chevauche une autre mission sinon je renvoie
+	 * une exception mission qui commence ou finit un jour non travaillé sinon
+	 * je renvoie une exception
+	 * 
+	 * si tous les controle sont passant alors je set le statut de la mission a
+	 * INITIALE et je sauvegarde la mission
+	 * 
+	 * @param mission
+	 * @exception InvalidDateMissionsException()
+	 * @exception InvalidDateTransportMissionException()
+	 * @exception InvalidDateException()
+	 * 
+	 */
 	public void newMission(Mission mission) {
 		if (mission.getDateDebut().equals(LocalDate.now()) && mission.getDateDebut().isBefore(LocalDate.now())) {
 			throw new InvalidDateMissionsException();
@@ -88,6 +126,11 @@ public class MissionService {
 
 	}
 
+	/**
+	 * Je verifie que la misison existe, si elle existe je la suprime
+	 * 
+	 * @param mission
+	 */
 	public void deleteMission(Mission mission) {
 		if (this.missionRepo.existsById(mission.getId())) {
 			this.missionRepo.delete(mission);
@@ -98,6 +141,14 @@ public class MissionService {
 
 	}
 
+	/**
+	 * Verifie que la mission exist par l'id @param .getId si la mission existe
+	 * il alors je set tous les parmaetre de @param et je sauvegarde la mission
+	 * en base
+	 * 
+	 * @param missionAModifier
+	 * @return void
+	 */
 	public void updateMission(Mission missionAModifier) {
 
 		Mission missionModifie = new Mission();
@@ -119,36 +170,28 @@ public class MissionService {
 		}
 	}
 
-	@Scheduled(fixedRate = 1000)
-	public void Test() {
+	/**
+	 * Ont prend en parametre 2 dates Ont itere sur les 2 dates tans que la
+	 * premiere ce trouve avant la deuxieme Ont verifie chaque jour, que la
+	 * dates n'est pas egal a un dimanche ou un samedi
+	 * 
+	 * @param dateDebut
+	 * @param dateFin
+	 * @return count
+	 */
+	public static int getNbJoursTravailler(LocalDate dateDebut, LocalDate dateFin) {
+		int count = 0;
+		LocalDate current = dateDebut;
+		while (current.isBefore(dateFin.plusDays(1))) {
+			if (!current.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+					&& !current.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+				count++;
+			}
+			current = current.plusDays(1);
 
-		List<Mission> missions = listerMission().stream().filter(mission -> mission.getStatut().equals(Statut.INITIALE))
-				.collect(Collectors.toList());
+		}
+		return count;
 
-		missions.forEach(element -> {
-			element.setStatut(Statut.EN_ATTENTE_VALIDATION);
-			this.missionRepo.save(element);
-			List<Mission> missionByDateFinEchu = listerMission().stream()
-					.filter(missionDate -> missionDate.getDateFin().isBefore(LocalDate.now()))
-					.collect(Collectors.toList());
-
-			missionByDateFinEchu.forEach(mission -> {
-
-				if (mission.getNatureMission().getDateFin() == null) {
-					mission.setPrime(mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm());
-					this.missionRepo.save(mission);
-				} else if ((mission.getNatureMission().getDateFin() != null)
-						&& (mission.getDateDebut().isBefore(mission.getNatureMission().getDateFin()))) {
-					mission.setPrime(mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm());
-
-					this.missionRepo.save(mission);
-				}
-
-			});
-
-		});
-		// envoie mail manager a faire
-		// Prime = (nombre de jours travaillés)* TJM * %Prime/100
 	}
 
 	/**
@@ -158,17 +201,50 @@ public class MissionService {
 	 * INITIALE Sur chaques elements de la liste ont set le statut a EN ATTENTE
 	 * DE VALIDATION
 	 * 
+	 * Ont calcul la prime 1- ont calcul le nombre de jour entre les deux date
+	 * travaille avec la methode "getNbJoursTravailler" 2-ont verifie que la
+	 * nature de missions na pas etais modifié entre le debut et fin de mission
+	 * 3-si modifier ont passe dans la seconde condition qui elle recupere le
+	 * pourcentage de l'ancienne nature 4- ont calcul la prime Prime = (nombre
+	 * de jours travaillés)* TJM * %Prime/100 5- ont cette le resultat dans la
+	 * mission assoccié et ont recommence pour chaque mission de la liste
+	 * 
 	 * @return void
 	 */
 	@Scheduled(cron = "1 * * * * *")
 	public void TraitementDeNuit() {
-
+		// passage des missions du statut initiale au status en attente de
+		// confirmation
 		List<Mission> missions = listerMission().stream().filter(mission -> mission.getStatut().equals(Statut.INITIALE))
 				.collect(Collectors.toList());
 
 		missions.forEach(element -> {
 			element.setStatut(Statut.EN_ATTENTE_VALIDATION);
 			this.missionRepo.save(element);
+
+			// Calcul de la prime
+		});
+		List<Mission> missionEchu = listerMission().stream()
+				.filter(missionDate -> missionDate.getDateFin().isBefore(LocalDate.now())).collect(Collectors.toList());
+
+		missionEchu.forEach(mission -> {
+			int nbJourTravaille = getNbJoursTravailler(mission.getDateDebut(), mission.getDateFin());
+			if (mission.getNatureMission().getDateFin() == null) {
+
+				mission.setPrime(nbJourTravaille
+						* ((mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm()) / 100));
+
+				this.missionRepo.save(mission);
+
+			} else if ((mission.getNatureMission().getDateFin() != null)
+					&& (mission.getDateDebut().isBefore(mission.getNatureMission().getDateFin()))) {
+
+				mission.setPrime(nbJourTravaille
+						* ((mission.getNatureMission().getPourcentage() * mission.getNatureMission().getTjm()) / 100));
+
+				this.missionRepo.save(mission);
+			}
+
 		});
 		System.out.println("cron success" + " " + LocalTime.now());
 	}

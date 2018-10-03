@@ -136,7 +136,7 @@ public class StartupListener {
 		mission.setDateDebut(LocalDate.now());
 		mission.setDateFin(LocalDate.of(2019, 01, 21));
 		mission.setNatureMission(expertiseTechnique);
-		mission.setPrime(5000);
+		mission.setPrime(0);
 		mission.setTransport(Transport.AVION);
 		mission.setStatut(Statut.INITIALE);
 		mission.setVilleArrivee("Paris");
@@ -148,7 +148,7 @@ public class StartupListener {
 		mission2.setDateDebut(LocalDate.of(2019, 02, 21));
 		mission2.setDateFin(LocalDate.of(2019, 02, 22));
 		mission2.setNatureMission(expertiseTechnique);
-		mission2.setPrime(5000);
+		mission2.setPrime(0);
 		mission2.setTransport(Transport.TRAIN);
 		mission2.setStatut(Statut.INITIALE);
 		mission2.setVilleArrivee("Lyon");
@@ -157,10 +157,10 @@ public class StartupListener {
 
 		Mission mission3 = new Mission();
 		mission3.setCollegue(col1);
-		mission3.setDateDebut(LocalDate.of(2019, 03, 21));
-		mission3.setDateFin(LocalDate.of(2019, 03, 22));
-		mission3.setNatureMission(expertiseTechnique);
-		mission3.setPrime(5000);
+		mission3.setDateDebut(LocalDate.of(2018, 03, 21));
+		mission3.setDateFin(LocalDate.of(2018, 03, 23));
+		mission3.setNatureMission(formation1);
+		mission3.setPrime(0);
 		mission3.setTransport(Transport.COVOITURAGE);
 		mission3.setStatut(Statut.INITIALE);
 		mission3.setVilleArrivee("Paris");
