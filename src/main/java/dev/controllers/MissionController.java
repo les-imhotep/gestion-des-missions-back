@@ -33,7 +33,6 @@ public class MissionController {
 
 	@GetMapping
 	public ResponseEntity<List<MissionDto>> findAllMission() {
-
 		return ResponseEntity.ok(this.service.findAllMission().stream()
 				.map(mission -> dev.Converters.MISSION_TO_MISSION_DTO.convert(mission)).collect(Collectors.toList()));
 
