@@ -5,10 +5,13 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.services.MissionService;
@@ -31,11 +34,12 @@ public class PrimeController {
 		return ResponseEntity.ok(this.missionService.findAllPrimes());
 	}
 
-	@GetMapping("/ddl")
-	public void ddlPrime(HttpServletResponse response) throws IOException {
+	@RequestMapping(path = "/ddl", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public Object ddlPrime(HttpServletResponse response) throws IOException {
 		Workbook file = this.missionService.ddlPrime();
 
-		response.setContentType("application/octet-stream");
+		response.setContentType("application/vnd.ms-excel");
 
 		/*
 		 * "Content-Disposition : inline" will show viewable types [like
@@ -47,7 +51,7 @@ public class PrimeController {
 				+ this.missionService.findAllMission().get(0).getCollegue().getNom() + ".xlsx" + "\""));
 
 		file.write(response.getOutputStream());
-
+		return null;
 	}
 
 }
