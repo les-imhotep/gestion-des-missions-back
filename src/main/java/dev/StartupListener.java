@@ -10,9 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entities.Collegue;
+import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
-import dev.entities.NoteDeFrais;
+import dev.entities.Prime;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
@@ -20,8 +21,10 @@ import dev.entities.enumerations.Role;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
 import dev.repositories.CollegueRepo;
+import dev.repositories.LigneDeFraisRepo;
 import dev.repositories.MissionRepo;
 import dev.repositories.NatureMissionRepo;
+import dev.repositories.PrimeRepo;
 import dev.repositories.VersionRepo;
 
 /**
@@ -34,21 +37,23 @@ public class StartupListener {
 	private VersionRepo versionRepo;
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
-
+	private LigneDeFraisRepo ligneDeFraisRepo;
+	private PrimeRepo primeRepo;
 	private NatureMissionRepo natureMissionRepo;
 	private MissionRepo missionRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo,
-			NatureMissionRepo natureMissionRepo) {
+			NatureMissionRepo natureMissionRepo, LigneDeFraisRepo ligneDeFraisRepo, PrimeRepo primeRepo) {
 
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
-
+		this.primeRepo = primeRepo;
 		this.natureMissionRepo = natureMissionRepo;
 		this.missionRepo = missionRepo;
+		this.ligneDeFraisRepo = ligneDeFraisRepo;
 
 	}
 
@@ -84,6 +89,7 @@ public class StartupListener {
 		this.collegueRepo.save(col3);
 
 		// Nature1 nature de mission fictive
+<<<<<<< HEAD
 		NatureMission nature1 = new NatureMission();
 		nature1.setName("Expertise de Djamel");
 		nature1.setFacturation(Facturation.FACTUREE);
@@ -101,6 +107,8 @@ public class StartupListener {
 		note1.setVilleArrivee("Rennes");
 		note1.setTransport(Transport.COVOITURAGE);
 
+=======
+>>>>>>> master
 		NatureMission conseil = new NatureMission();
 		conseil.setPourcentage(3.5);
 		conseil.setPrime(true);
@@ -108,6 +116,25 @@ public class StartupListener {
 		conseil.setFacturation(Facturation.FACTUREE);
 		conseil.setName("Conseil");
 		this.natureMissionRepo.save(conseil);
+
+		// Création de deux notes de frais
+		LigneDeFrais ligneDeFrais = new LigneDeFrais();
+		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
+		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
+		ligneDeFrais.setNatureMission(conseil);
+		ligneDeFrais.setVilleDepart("Nantes");
+		ligneDeFrais.setVilleArrivee("Rennes");
+		ligneDeFrais.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais);
+
+		LigneDeFrais ligneDeFrais1 = new LigneDeFrais();
+		ligneDeFrais1.setDateDebut(LocalDate.of(1018, 8, 17));
+		ligneDeFrais1.setDateFin(LocalDate.of(1018, 9, 30));
+		ligneDeFrais1.setNatureMission(conseil);
+		ligneDeFrais1.setVilleDepart("Nantes");
+		ligneDeFrais1.setVilleArrivee("Rennes");
+		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
+		this.ligneDeFraisRepo.save(ligneDeFrais1);
 
 		NatureMission expertiseTechnique = new NatureMission();
 		expertiseTechnique.setPourcentage(4);
@@ -143,6 +170,7 @@ public class StartupListener {
 		mission.setVilleDepart("Nantes");
 		missionRepo.save(mission);
 
+
 		Mission mission2 = new Mission();
 		mission2.setCollegue(col1);
 		mission2.setDateDebut(LocalDate.of(2019, 02, 21));
@@ -166,6 +194,15 @@ public class StartupListener {
 		mission3.setVilleArrivee("Paris");
 		mission3.setVilleDepart("Marseille");
 		missionRepo.save(mission3);
+
+
+		// primes
+		Prime prime = new Prime();
+		prime.setDateDebut(LocalDate.of(1999, 2, 15));
+		prime.setDateFin(null);
+		prime.setMontant(1000);
+		prime.setNatureMission(conseil);
+		primeRepo.save(prime);
 
 	}
 

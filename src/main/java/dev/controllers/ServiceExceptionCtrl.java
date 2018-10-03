@@ -16,6 +16,7 @@ import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
 import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.InvalidNameException;
+import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.PourcentageException;
 
 @ControllerAdvice
@@ -77,6 +78,12 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> InvalidIdMissionException() {
 		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_ID_MISSION,
 				"Mission non trouvé en base,id incorrect ou connexion serveur perdu"));
+	}
+
+	@ExceptionHandler(NameAllreadyExcistsException.class)
+	public ResponseEntity<?> nameAllreadyExcistsException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "La nature existe déjà"));
+
 	}
 
 }

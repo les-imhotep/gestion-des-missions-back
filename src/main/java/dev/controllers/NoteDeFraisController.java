@@ -15,8 +15,7 @@ import dev.services.NoteDeFraisService;
 
 @CrossOrigin
 @RestController()
-@RequestMapping("/notedefrais")
-
+@RequestMapping("/notesdefrais")
 public class NoteDeFraisController {
 
 	NoteDeFraisService noteDeFraisService;
