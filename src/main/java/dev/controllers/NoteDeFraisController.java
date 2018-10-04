@@ -20,6 +20,12 @@ import dev.Converters;
 import dev.controller.dto.NoteDeFraisDto;
 import dev.services.NoteDeFraisService;
 
+/**
+ * Controller pour les notes de frais
+ * 
+ * @author Diginamic-02
+ *
+ */
 @CrossOrigin
 @RestController()
 @RequestMapping("/notesdefrais")
