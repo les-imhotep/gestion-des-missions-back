@@ -17,6 +17,7 @@ import dev.entities.NoteDeFrais;
 import dev.entities.RoleCollegue;
 import dev.entities.Version;
 import dev.entities.enumerations.Facturation;
+import dev.entities.enumerations.NatureLigne;
 import dev.entities.enumerations.Role;
 import dev.entities.enumerations.Statut;
 import dev.entities.enumerations.Transport;
@@ -164,30 +165,21 @@ public class StartupListener {
 
 		// Création de lignes de frais
 		LigneDeFrais ligneDeFrais = new LigneDeFrais();
-		ligneDeFrais.setDateDebut(LocalDate.of(2018, 8, 17));
-		ligneDeFrais.setDateFin(LocalDate.of(2018, 9, 30));
-		ligneDeFrais.setNatureMission(conseil);
-		ligneDeFrais.setVilleDepart("Nantes");
-		ligneDeFrais.setVilleArrivee("Rennes");
-		ligneDeFrais.setTransport(Transport.COVOITURAGE);
+		ligneDeFrais.setDate(LocalDate.of(2018, 8, 17));
+		ligneDeFrais.setNatureLigne(NatureLigne.HOTEL);
+		ligneDeFrais.setFrais(150);
 		this.ligneDeFraisRepo.save(ligneDeFrais);
 
 		LigneDeFrais ligneDeFrais1 = new LigneDeFrais();
-		ligneDeFrais1.setDateDebut(LocalDate.of(1018, 8, 17));
-		ligneDeFrais1.setDateFin(LocalDate.of(1018, 9, 30));
-		ligneDeFrais1.setNatureMission(conseil);
-		ligneDeFrais1.setVilleDepart("Nantes");
-		ligneDeFrais1.setVilleArrivee("Rennes");
-		ligneDeFrais1.setTransport(Transport.COVOITURAGE);
+		ligneDeFrais1.setDate(LocalDate.of(2017, 10, 17));
+		ligneDeFrais1.setNatureLigne(NatureLigne.RESTAURANT);
+		ligneDeFrais1.setFrais(1500);
 		this.ligneDeFraisRepo.save(ligneDeFrais1);
 
 		LigneDeFrais ligneDeFrais2 = new LigneDeFrais();
-		ligneDeFrais2.setDateDebut(LocalDate.of(2018, 8, 17));
-		ligneDeFrais2.setDateFin(LocalDate.of(2018, 9, 30));
-		ligneDeFrais2.setNatureMission(conseil);
-		ligneDeFrais2.setVilleDepart("Nantes");
-		ligneDeFrais2.setVilleArrivee("Rennes");
-		ligneDeFrais2.setTransport(Transport.COVOITURAGE);
+		ligneDeFrais2.setDate(LocalDate.of(2015, 1, 17));
+		ligneDeFrais2.setNatureLigne(NatureLigne.TAXI);
+		ligneDeFrais2.setFrais(300);
 		this.ligneDeFraisRepo.save(ligneDeFrais2);
 
 		// notes de frais

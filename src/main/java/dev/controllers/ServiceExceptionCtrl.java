@@ -11,7 +11,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import dev.controller.dto.ErrorCode;
 import dev.controller.dto.ErrorDto;
+import dev.exceptions.AllreadyExistsLigneException;
 import dev.exceptions.InvalidDateException;
+import dev.exceptions.InvalidDateLigneException;
 import dev.exceptions.InvalidDateMissionsException;
 import dev.exceptions.InvalidDateTransportMissionException;
 import dev.exceptions.InvalidFacturationException;
@@ -22,6 +24,12 @@ import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
 
+/**
+ * classe gérant les exceptions de l'application
+ * 
+ * @author Diginamic-02
+ *
+ */
 @ControllerAdvice
 public class ServiceExceptionCtrl {
 
@@ -99,4 +107,17 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> NoPrimeException() {
 		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.NO_PRIME, "Aucune prime n'a été trouvée"));
 	}
+
+	@ExceptionHandler(InvalidDateLigneException.class)
+	public ResponseEntity<?> InvalidDateLigneException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.INVALID_DATE,
+				"La date d'une ligne de frais doit être comprise durant la date de début et la date de fin de la mission"));
+	}
+
+	@ExceptionHandler(AllreadyExistsLigneException.class)
+	public ResponseEntity<?> AllreadyExistsLigneException() {
+		return ResponseEntity.badRequest()
+				.body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "Cette ligne de frais existe déjà"));
+	}
+
 }

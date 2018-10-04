@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.services.MissionService;
 
+/**
+ * Controller pour les primes
+ * 
+ * @author Diginamic-02
+ *
+ */
 @CrossOrigin
 @RestController()
 @RequestMapping("/primes")
