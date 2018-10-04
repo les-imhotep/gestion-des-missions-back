@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import dev.Converters;
+import dev.controller.dto.NoteDeFraisDto;
 import dev.entities.NoteDeFrais;
 import dev.repositories.NoteDeFraisRepo;
 
@@ -63,6 +64,22 @@ public class NoteDeFraisService {
 
 		return this.noteDeFraisRepo.findAllByMissionCollegueEmail(getUserDetails());
 
+	}
+
+	public void addNoteDeFrais(NoteDeFrais noteDeFrais) {
+		this.noteDeFraisRepo.save(noteDeFrais);
+
+	}
+
+	public void deleteNoteDeFrais(NoteDeFrais noteDeFrais) {
+		this.noteDeFraisRepo.delete(noteDeFrais);
+	}
+
+	public NoteDeFraisDto updateNoteDeFrais(NoteDeFrais noteDeFraisAModifier) {
+		NoteDeFraisDto noteDeFrais = new NoteDeFraisDto();
+		// à faire exception balbla
+		this.noteDeFraisRepo.save(noteDeFraisAModifier);
+		return noteDeFrais;
 	}
 
 	/**

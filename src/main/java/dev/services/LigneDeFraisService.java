@@ -48,7 +48,10 @@ public class LigneDeFraisService {
 	 * @param ligneDeFraisRepo
 	 */
 	public void addLigneDefrais(LigneDeFrais ligneDeFrais) {
+		System.out.println("ligne6" + ligneDeFrais.getId());
+
 		if (isVerificationLigneDeFraisOk(ligneDeFrais)) {
+
 			this.ligneDeFraisRepo.save(ligneDeFrais);
 		}
 	}
@@ -137,7 +140,10 @@ public class LigneDeFraisService {
 		for (NoteDeFrais noteDeFrais : this.noteDeFraisRepo.findAllByMissionCollegueEmail(
 				(String) SecurityContextHolder.getContext().getAuthentication().getName())) {
 			for (LigneDeFrais ligne : noteDeFrais.getLignesDeFrais()) {
+				System.out.println(id);
+				System.out.println("ligne id" + ligne.getId());
 				if (ligne.getId() == id) {
+
 					resultat = noteDeFrais;
 				} else {
 					throw new NoLigneDeFraisFoundException();

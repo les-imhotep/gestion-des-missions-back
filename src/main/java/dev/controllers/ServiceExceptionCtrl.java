@@ -21,6 +21,7 @@ import dev.exceptions.InvalidIdException;
 import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.InvalidNameException;
 import dev.exceptions.NameAllreadyExcistsException;
+import dev.exceptions.NoLigneDeFraisFoundException;
 import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
 
@@ -118,6 +119,11 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> AllreadyExistsLigneException() {
 		return ResponseEntity.badRequest()
 				.body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "Cette ligne de frais existe déjà"));
+	}
+
+	@ExceptionHandler(NoLigneDeFraisFoundException.class)
+	public ResponseEntity<?> NoLigneDeFraisFoundException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.NOT_FOUND, "Ligne non existante"));
 	}
 
 }
