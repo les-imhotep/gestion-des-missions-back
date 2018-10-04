@@ -13,6 +13,12 @@ import dev.Converters;
 import dev.controller.dto.LigneDeFraisDto;
 import dev.services.LigneDeFraisService;
 
+/**
+ * Controller pour les lignes de frais
+ * 
+ * @author Diginamic-02
+ *
+ */
 @CrossOrigin
 @RestController()
 @RequestMapping("/lignesdefrais")

@@ -59,7 +59,7 @@ public class NatureMissionService {
 	 * sauvegarde une nouvelle nature de mission
 	 * 
 	 * @param natureMission
-	 *            nouvelle nature de mission
+	 *            nature de mission à ajouter
 	 * 
 	 */
 	public void addNatureMission(NatureMission natureMission) {
@@ -81,6 +81,13 @@ public class NatureMissionService {
 
 	}
 
+	/**
+	 * mets à jour une nature de mission
+	 * 
+	 * @param natureMissionAModifier
+	 *            la nature de mission avec les paramètres à modifier
+	 * @return la nature de mission modifié
+	 */
 	public NatureMission updateNatureMission(NatureMissionDto natureMissionAModifier) {
 
 		NatureMission natureMissionModifie = new NatureMission();
@@ -118,6 +125,14 @@ public class NatureMissionService {
 		return natureMissionModifie;
 	}
 
+	/**
+	 * indique si une nature de mission existe déjà avec le nom défini en
+	 * paramètre
+	 * 
+	 * @param name
+	 *            nom de la nature à chercher
+	 * @return true or false en fonction de l'existence d'une nature de mission
+	 */
 	public boolean existsByName(String name) {
 		if (this.natureMissionRepo.existsByName(name)) {
 			return true;
