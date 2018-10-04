@@ -39,6 +39,14 @@ public class MissionController {
 
 	}
 
+	@GetMapping("/validation")
+	public ResponseEntity<List<MissionDto>> findMissionByStatus() {
+
+		return ResponseEntity.ok(this.service.findMissionbyStatut().stream()
+				.map(mission -> dev.Converters.MISSION_TO_MISSION_DTO.convert(mission)).collect(Collectors.toList()));
+
+	}
+
 	// *************************************POST***********************************************
 	@PostMapping("/new")
 	public void newMission(@RequestBody MissionDto missionDto) throws ParseException {
@@ -58,6 +66,12 @@ public class MissionController {
 	@PostMapping("/update")
 	public void updateMission(@RequestBody MissionDto missionDto) {
 		this.service.updateMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
+
+	}
+
+	@PostMapping("/updatestatut")
+	public void updatestatut(@RequestBody MissionDto missionDto) {
+		this.service.updateStatutMission(Converters.MISSION_DTO_TO_MISSION.convert(missionDto));
 
 	}
 }

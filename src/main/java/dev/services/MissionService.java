@@ -71,12 +71,19 @@ public class MissionService {
 	 * liste les mission par statut
 	 * 
 	 * @param statut
-	 * @return retourne que les mission du status renseigner
+	 * @return retourne que les missions du status, en attente de validation
 	 */
-	public List<Mission> findMissionbyStatut(String statut) {
+	public List<Mission> findMissionbyStatut() {
 
-		return this.missionRepo.findAllByStatut(statut);
+		return this.missionRepo.findAllByStatut(Statut.EN_ATTENTE_VALIDATION);
 
+	}
+
+	public void updateStatutMission(Mission StatutAModifier) {
+		if (this.missionRepo.existsById(StatutAModifier.getId())) {
+			this.missionRepo.save(StatutAModifier);
+
+		}
 	}
 
 	/**
@@ -156,9 +163,13 @@ public class MissionService {
 		if (this.missionRepo.existsById(missionAModifier.getId())) {
 
 			missionModifie.setDateDebut(missionAModifier.getDateDebut());
+
 			missionModifie.setDateFin(missionAModifier.getDateFin());
+
 			missionModifie.setNatureMission(missionAModifier.getNatureMission());
+
 			missionModifie.setTransport(missionAModifier.getTransport());
+
 			missionModifie.setVilleArrivee(missionAModifier.getVilleArrivee());
 			missionModifie.setVilleDepart(missionAModifier.getVilleDepart());
 			missionModifie.setStatut(Statut.INITIALE);
