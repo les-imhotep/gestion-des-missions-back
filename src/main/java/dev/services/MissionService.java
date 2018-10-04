@@ -138,12 +138,22 @@ public class MissionService {
 	}
 
 	// gestion des primes
+	/**
+	 * 
+	 * @return une liste de mission pour un utilisateur
+	 */
 	public List<?> findAllPrimes() {
 		// recupérer les primes de chaque mission pour un utilisateur
 		return findAllMission().stream().map(mission -> mission.getPrime()).collect(Collectors.toList());
 
 	}
 
+	/**
+	 * création d'un style pour les titres du pdf
+	 * 
+	 * @param workbook
+	 * @return un style
+	 */
 	private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
 		HSSFFont font = workbook.createFont();
 		font.setBold(true);
@@ -152,6 +162,12 @@ public class MissionService {
 		return style;
 	}
 
+	/**
+	 * crée un flux de données avec la listes des primes
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public HSSFWorkbook ddlPrime() throws IOException {
 
 		List<Mission> list = findAllMission();
@@ -165,7 +181,7 @@ public class MissionService {
 			int rownum = 0;
 			Cell cell;
 			Row row;
-			//
+
 			HSSFCellStyle style = createStyleForTitle(workbook);
 			style.setAlignment(HorizontalAlignment.CENTER);
 			sheet.setColumnWidth((short) 0, (short) (15 * 256));
@@ -195,7 +211,7 @@ public class MissionService {
 			cell.setCellValue("Prime");
 			cell.setCellStyle(style);
 
-			// Data
+			// remplir le tableau
 			for (Mission mission : list) {
 				rownum++;
 				row = sheet.createRow(rownum);
