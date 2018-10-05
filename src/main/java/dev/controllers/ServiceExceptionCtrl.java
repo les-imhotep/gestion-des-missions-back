@@ -20,6 +20,8 @@ import dev.exceptions.InvalidFacturationException;
 import dev.exceptions.InvalidIdException;
 import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.InvalidNameException;
+import dev.exceptions.MissionNotFini;
+import dev.exceptions.MissionNotFoundException;
 import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
@@ -119,6 +121,17 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> AllreadyExistsLigneException() {
 		return ResponseEntity.badRequest()
 				.body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "Cette ligne de frais existe déjà"));
+	}
+
+	@ExceptionHandler(MissionNotFoundException.class)
+	public ResponseEntity<?> MissionNotFoundException() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.NOT_FOUND, "Cette mission n'existe pas"));
+	}
+
+	@ExceptionHandler(MissionNotFini.class)
+	public ResponseEntity<?> MissionNotFini() {
+		return ResponseEntity.badRequest()
+				.body(new ErrorDto(ErrorCode.INVALID_DATE, "Cette mission n'est pas encore finie"));
 	}
 
 	@ExceptionHandler(SupressionImpossibleErreur.class)

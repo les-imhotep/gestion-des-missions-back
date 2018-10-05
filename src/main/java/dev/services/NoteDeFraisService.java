@@ -2,6 +2,7 @@ package dev.services;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,17 +21,23 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import dev.Converters;
+import dev.controller.dto.NoteDeFraisDto;
+import dev.entities.Mission;
 import dev.entities.NoteDeFrais;
+import dev.exceptions.MissionNotFini;
+import dev.exceptions.MissionNotFoundException;
 import dev.repositories.NoteDeFraisRepo;
 
 @Service
 public class NoteDeFraisService {
 
 	private NoteDeFraisRepo noteDeFraisRepo;
+	private MissionService missionService;
 
-	public NoteDeFraisService(NoteDeFraisRepo noteDeFraisRepo) {
+	public NoteDeFraisService(NoteDeFraisRepo noteDeFraisRepo, MissionService missionService) {
 		super();
 		this.noteDeFraisRepo = noteDeFraisRepo;
+		this.missionService = missionService;
 	}
 
 	/**
@@ -39,10 +46,35 @@ public class NoteDeFraisService {
 	 * @param noteDeFrais
 	 *            la note de frais à ajouter
 	 */
-	public void addNoteDefraisMission(NoteDeFrais noteDeFrais) {
+	public void addNoteDeFrais(Mission mission) {
+		if (this.missionService.isMissionFini(mission)) {
+			if (findNoteByMission(mission) == null) {
+				NoteDeFrais noteDeFrais = new NoteDeFrais();
+				noteDeFrais.setMission(mission);
+				this.noteDeFraisRepo.save(noteDeFrais);
+			} else {
+				throw new MissionNotFoundException();
+			}
+		} else {
+			throw new MissionNotFini();
+		}
 
-		this.noteDeFraisRepo.save(noteDeFrais);
+	}
 
+	/**
+	 * cherche une note de frais par mission
+	 * 
+	 * @param mission
+	 * @return la note de frais trouvé
+	 */
+	public NoteDeFrais findNoteByMission(Mission mission) {
+		if (mission == null || findAllNoteDeFraisByUser().stream().filter(note -> note.getMission().equals(mission))
+				.collect(Collectors.toList()).isEmpty()) {
+			return null;
+		} else {
+			return findAllNoteDeFraisByUser().stream().filter(note -> note.getMission().equals(mission))
+					.collect(Collectors.toList()).get(0);
+		}
 	}
 
 	/**
@@ -63,6 +95,23 @@ public class NoteDeFraisService {
 
 		return this.noteDeFraisRepo.findAllByMissionCollegueEmail(getUserDetails());
 
+	}
+
+	public void deleteNoteDeFrais(NoteDeFrais noteDeFrais) {
+		this.noteDeFraisRepo.delete(noteDeFrais);
+	}
+
+	/**
+	 * modifier une note de frais
+	 * 
+	 * @param noteDeFraisAModifier
+	 * @return une note de frais
+	 */
+	public NoteDeFraisDto updateNoteDeFrais(NoteDeFrais noteDeFraisAModifier) {
+		NoteDeFraisDto noteDeFrais = new NoteDeFraisDto();
+		// à faire exception balbla
+		this.noteDeFraisRepo.save(noteDeFraisAModifier);
+		return noteDeFrais;
 	}
 
 	/**
@@ -148,6 +197,16 @@ public class NoteDeFraisService {
 		document.close();
 		return document;
 
+	}
+
+	/**
+	 * cherche une note de frais par id
+	 * 
+	 * @param id
+	 * @return une note de frais si elle existe
+	 */
+	public Optional<NoteDeFrais> findNoteById(Long id) {
+		return this.noteDeFraisRepo.findById(id);
 	}
 
 }
