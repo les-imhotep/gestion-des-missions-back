@@ -23,6 +23,7 @@ import dev.exceptions.InvalidNameException;
 import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
+import dev.exceptions.SupressionImpossibleErreur;
 
 /**
  * classe gérant les exceptions de l'application
@@ -118,6 +119,12 @@ public class ServiceExceptionCtrl {
 	public ResponseEntity<?> AllreadyExistsLigneException() {
 		return ResponseEntity.badRequest()
 				.body(new ErrorDto(ErrorCode.ALLREADY_EXISTS, "Cette ligne de frais existe déjà"));
+	}
+
+	@ExceptionHandler(SupressionImpossibleErreur.class)
+	public ResponseEntity<?> SupressionImpossibleErreur() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.DELETE_IMPOSSIBLE,
+				"Supression impossible, note de frais existante pour cette mission"));
 	}
 
 }
