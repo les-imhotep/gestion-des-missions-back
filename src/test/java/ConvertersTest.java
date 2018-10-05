@@ -109,4 +109,53 @@ public class ConvertersTest {
 				Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).isPrime() == formationDto.isPrime());
 	}
 
+	@Test
+	public void ligneDeFraisTest() {
+
+		NatureMission formation = new NatureMission();
+		formation.setPrime(true);
+		formation.setFacturation(Facturation.NON_FACTUREE);
+		formation.setName("Jean");
+		formation.setPourcentage(10);
+		formation.setTjm(150);
+		formation.setDateFin(LocalDate.of(2999, 12, 31));
+
+		NatureMissionDto formationDto = new NatureMissionDto();
+		formationDto.setPrime(true);
+		formationDto.setFacturation(Facturation.NON_FACTUREE);
+		formationDto.setName("Jean");
+		formationDto.setPourcentage(10);
+		formationDto.setTjm(150);
+		formationDto.setDateFin(LocalDate.of(2999, 12, 31));
+
+		// converter naturemission dto to naturemission
+		assertTrue(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).getFacturation() == formation
+				.getFacturation());
+
+		assertTrue(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).getDateFin()
+				.isEqual(formation.getDateFin()));
+		assertTrue(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).getName()
+				.equals(formation.getName()));
+		assertTrue(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).getPourcentage() == formation
+				.getPourcentage());
+		assertTrue(Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).getTjm() == formation.getTjm());
+
+		assertTrue(
+				Converters.NATUREMISSION_DTO_TO_NATUREMISSION.convert(formationDto).isPrime() == formation.isPrime());
+		// converter naturemission to naturemission dto
+		assertTrue(Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).getFacturation() == formationDto
+				.getFacturation());
+
+		assertTrue(Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).getDateFin()
+				.isEqual(formationDto.getDateFin()));
+		assertTrue(Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).getName()
+				.equals(formationDto.getName()));
+		assertTrue(Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).getPourcentage() == formationDto
+				.getPourcentage());
+		assertTrue(Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).getTjm() == formationDto.getTjm());
+
+		assertTrue(
+				Converters.NATUREMISSION_TO_NATUREMISSION_DTO.convert(formation).isPrime() == formationDto.isPrime());
+	}
+
 }

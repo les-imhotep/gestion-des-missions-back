@@ -12,4 +12,6 @@ public interface MissionRepo extends JpaRepository<Mission, Long> {
 	List<Mission> findAllByStatut(String statut);
 
 	boolean existsById(Long id);
+
+	public Mission findMissionById(Long id);
 }

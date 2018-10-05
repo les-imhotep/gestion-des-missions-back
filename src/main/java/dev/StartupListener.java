@@ -113,12 +113,6 @@ public class StartupListener {
 		formation.setDateFin(LocalDate.of(2018, 9, 20));
 		this.natureMissionRepo.save(formation);
 
-		NatureMission formation1 = new NatureMission();
-		formation1.setPrime(true);
-		formation1.setFacturation(Facturation.NON_FACTUREE);
-		formation1.setName("Jean");
-		this.natureMissionRepo.save(formation1);
-
 		NatureMission expertiseTechnique = new NatureMission();
 		expertiseTechnique.setPourcentage(4);
 		expertiseTechnique.setPrime(true);
@@ -156,12 +150,23 @@ public class StartupListener {
 		mission2.setCollegue(col2);
 		mission2.setDateDebut(LocalDate.now());
 		mission2.setDateFin(LocalDate.of(2020, 01, 21));
-		mission2.setNatureMission(formation1);
+		mission2.setNatureMission(conseil);
 		mission2.setTransport(Transport.VOITURE_SERVICE);
 		mission2.setStatut(Statut.EN_ATTENTE_VALIDATION);
 		mission2.setVilleArrivee("Oui");
 		mission2.setVilleDepart("Perle");
 		missionRepo.save(mission2);
+
+		Mission mission3 = new Mission();
+		mission3.setCollegue(col1);
+		mission3.setDateDebut(LocalDate.of(1999, 12, 25));
+		mission3.setDateFin(LocalDate.of(2008, 01, 21));
+		mission3.setNatureMission(formation);
+		mission3.setTransport(Transport.VOITURE_SERVICE);
+		mission3.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		mission3.setVilleArrivee("Oui");
+		mission3.setVilleDepart("Perle");
+		missionRepo.save(mission3);
 
 		// Création de lignes de frais
 		LigneDeFrais ligneDeFrais = new LigneDeFrais();

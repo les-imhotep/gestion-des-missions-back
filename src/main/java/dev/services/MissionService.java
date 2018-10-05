@@ -360,4 +360,34 @@ public class MissionService {
 		});
 		System.out.println("cron success" + " " + LocalTime.now());
 	}
+
+	/**
+	 * vérifie si une mission est fini
+	 * 
+	 * @param mission
+	 * @return true or false en fonction de la fin de la mission
+	 */
+	public boolean isMissionFini(Mission mission) {
+		if (mission != null && mission.getDateFin() != null) {
+			if (mission.getDateFin().isBefore(LocalDate.now())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * cherche une mission par id
+	 * 
+	 * @param id
+	 * @return la mission trouvée si elle existe
+	 */
+	public Optional<Mission> findMissionById(Long id) {
+		return this.missionRepo.findById(id);
+	}
+
 }
