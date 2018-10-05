@@ -2,32 +2,16 @@ package dev;
 
 import org.springframework.core.convert.converter.Converter;
 
-import dev.controller.dto.AbsenceDto;
 import dev.controller.dto.LigneDeFraisDto;
 import dev.controller.dto.MissionDto;
 import dev.controller.dto.NatureMissionDto;
 import dev.controller.dto.NoteDeFraisDto;
-import dev.controller.dto.PrimeDto;
-import dev.entities.Absence;
 import dev.entities.LigneDeFrais;
 import dev.entities.Mission;
 import dev.entities.NatureMission;
 import dev.entities.NoteDeFrais;
-import dev.entities.Prime;
 
 public interface Converters {
-	// Converter for absence
-
-	Converter<Absence, AbsenceDto> ABSENCE_TO_ABSENCE_DTO = absence -> {
-		AbsenceDto absenceDto = new AbsenceDto(absence);
-		return absenceDto;
-	};
-
-	Converter<AbsenceDto, Absence> ABSENCE_DTO_TO_ABSENCE = absenceDto -> {
-		Absence absence = new Absence(absenceDto);
-
-		return absence;
-	};
 
 	// Converter for mission
 	Converter<Mission, MissionDto> MISSION_TO_MISSION_DTO = mission -> {
@@ -78,13 +62,4 @@ public interface Converters {
 	};
 	// Converter for prime
 
-	Converter<Prime, PrimeDto> PRIME_TO_PRIME_DTO = prime -> {
-		PrimeDto primeDto = new PrimeDto(prime);
-		return primeDto;
-	};
-
-	Converter<PrimeDto, Prime> PRIME_DTO_TO_PRIME = primeDto -> {
-		Prime prime = new Prime(primeDto);
-		return prime;
-	};
 }
