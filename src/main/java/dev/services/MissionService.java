@@ -32,8 +32,10 @@ import dev.exceptions.InvalidDateTransportMissionException;
 import dev.exceptions.InvalidIdException;
 import dev.exceptions.InvalidIdMissionException;
 import dev.exceptions.NoPrimeException;
+import dev.exceptions.SupressionImpossibleErreur;
 import dev.repositories.CollegueRepo;
 import dev.repositories.MissionRepo;
+import dev.repositories.NoteDeFraisRepo;
 
 @Service
 public class MissionService {
@@ -43,6 +45,8 @@ public class MissionService {
 
 	@Autowired
 	private CollegueRepo collegueRepo;
+	@Autowired
+	private NoteDeFraisRepo noteDeFrais;
 
 	public MissionService() {
 		super();
@@ -82,12 +86,19 @@ public class MissionService {
 	 * liste les mission par statut
 	 * 
 	 * @param statut
-	 * @return retourne que les mission du status renseigner
+	 * @return retourne que les missions du status, en attente de validation
 	 */
-	public List<Mission> findMissionbyStatut(String statut) {
+	public List<Mission> findMissionbyStatut() {
 
-		return this.missionRepo.findAllByStatut(statut);
+		return this.missionRepo.findAllByStatut(Statut.EN_ATTENTE_VALIDATION);
 
+	}
+
+	public void updateStatutMission(Mission StatutAModifier) {
+		if (this.missionRepo.existsById(StatutAModifier.getId())) {
+			this.missionRepo.save(StatutAModifier);
+
+		}
 	}
 
 	/**
@@ -245,10 +256,16 @@ public class MissionService {
 	 */
 	public void deleteMission(Mission mission) {
 		if (this.missionRepo.existsById(mission.getId())) {
-			this.missionRepo.delete(mission);
+			if (this.noteDeFrais.findNoteDeFraisByMission(mission) == null) {
+				this.missionRepo.delete(mission);
 
+			} else {
+				throw new SupressionImpossibleErreur();
+
+			}
 		} else {
 			throw new InvalidIdException();
+
 		}
 
 	}
@@ -268,9 +285,13 @@ public class MissionService {
 		if (this.missionRepo.existsById(missionAModifier.getId())) {
 
 			missionModifie.setDateDebut(missionAModifier.getDateDebut());
+
 			missionModifie.setDateFin(missionAModifier.getDateFin());
+
 			missionModifie.setNatureMission(missionAModifier.getNatureMission());
+
 			missionModifie.setTransport(missionAModifier.getTransport());
+
 			missionModifie.setVilleArrivee(missionAModifier.getVilleArrivee());
 			missionModifie.setVilleDepart(missionAModifier.getVilleDepart());
 			missionModifie.setStatut(Statut.INITIALE);

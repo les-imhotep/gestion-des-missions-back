@@ -25,6 +25,7 @@ import dev.exceptions.MissionNotFoundException;
 import dev.exceptions.NameAllreadyExcistsException;
 import dev.exceptions.NoPrimeException;
 import dev.exceptions.PourcentageException;
+import dev.exceptions.SupressionImpossibleErreur;
 
 /**
  * classe gérant les exceptions de l'application
@@ -132,4 +133,11 @@ public class ServiceExceptionCtrl {
 		return ResponseEntity.badRequest()
 				.body(new ErrorDto(ErrorCode.INVALID_DATE, "Cette mission n'est pas encore finie"));
 	}
+
+	@ExceptionHandler(SupressionImpossibleErreur.class)
+	public ResponseEntity<?> SupressionImpossibleErreur() {
+		return ResponseEntity.badRequest().body(new ErrorDto(ErrorCode.DELETE_IMPOSSIBLE,
+				"Supression impossible, note de frais existante pour cette mission"));
+	}
+
 }
