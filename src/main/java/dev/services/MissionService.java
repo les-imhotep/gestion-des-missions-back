@@ -96,6 +96,7 @@ public class MissionService {
 
 	public void updateStatutMission(Mission StatutAModifier) {
 		if (this.missionRepo.existsById(StatutAModifier.getId())) {
+			StatutAModifier.setCollegue(this.collegueRepo.findByEmail(getUserDetails()).get());
 			this.missionRepo.save(StatutAModifier);
 
 		}
